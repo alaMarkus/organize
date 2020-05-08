@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express');
+const session = require('express-session')
 const partsRouter = require("./controllers/partsRouter")
 const auth = require("./controllers/auth")
 const app = express()
@@ -9,6 +10,13 @@ console.log(process.env.SECRET)
 
 app.listen(port, () => console.log("listening on port "+port))
 app.use(express.json())
+
+app.use(session({
+    secret: process.env.SECRET,
+    secure: false,
+    resave: false,
+    saveUninitialized: false,
+}))
 
 app.use("/api", partsRouter)
 app.use("/auth", auth)

@@ -17,6 +17,8 @@ con.connect(function(err){
 const getProjects = (user) =>{
     const sql = "SELECT * FROM project WHERE userId = ?"
     return new Promise ((resolve, reject) => {
+        console.log("user inside promise: ")
+        console.log(user)
         con.query(sql, [user], function (err, result){
             if (err){
                 console.log(err.message)
@@ -149,21 +151,29 @@ const partToBatch = (batchId, partId) => {
     })
 }
 
-const signIn = (email, pwhash) => {
+
+
+const signIn = (email, pwhash,newuid) => {
     const sql = "INSERT INTO login (username, password ) VALUES (?,?)"
+    const sql2 = "INSERT INTO userdata (username, userType, secId) VALUES (?,?,?)"
     return new Promise((resolve, reject) => {
         con.query(sql, [email, pwhash], function (err, result){
             if (err){
                 console.log(err.message)
                 reject(new Error(err.message))
             }
-            resolve(result)
+            con.query(sql2, [email, "client",newuid], function(err, result2){
+                if (err){
+                    reject(new Error(err.message))
+                }
+                resolve(result2)
+            })
         })
     })
 }
 
 const logIn = (email) => {
-    const sql = "SELECT Password FROM login WHERE username = ?"
+    const sql = "SELECT password FROM login WHERE username = ?"
     return new Promise((resolve, reject) => {
         con.query(sql, [email], function(err, result){
             if (err){
@@ -175,6 +185,20 @@ const logIn = (email) => {
     })
 }
 
+const getUserId  = (username) => {
+    const sql = "SELECT secId FROM userdata WHERE username = (?)"
+    return new Promise((resolve,reject)=>{
+        con.query(sql,[username], function(err, result){
+            if (err){
+                console.log(err.message)
+                reject(new Error(err.message))
+            }
+            resolve(result)
+        })
+    })
+}
+
+exports.getUserId = getUserId;
 exports.partToBatch = partToBatch;
 exports.insertBatch = insertBatch;
 exports.insertProject = insertProject;
