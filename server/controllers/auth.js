@@ -1,7 +1,7 @@
 const auth = require('express').Router()
 const queries = require('../database/dbquery')
 const argon = require('argon2')
-const {uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 
 auth.post("/signin", async function (req, res){

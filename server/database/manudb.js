@@ -15,9 +15,8 @@ con.connect(function(err){
 })
 
 const insertMachine = (user,machineobj) => {
-    const sql = "INSERT INTO machine (secId,userId,machineName,post,minLength,maxLength,minOutsideDiameter,maxOutsideDiameter,minInsideDiameter,maxInsideDiameter) VALUES (?,?,?,?,?,?,?,?,?,?)"
+    const sql = "INSERT INTO machine (userId,machineName,post,minLength,maxLength,minOutsideDiameter,maxOutsideDiameter,minInsideDiameter,maxInsideDiameter) VALUES ((SELECT userId FROM userdata WHERE secId=?),?,?,?,?,?,?,?,?)"
     const values = [
-        machineobj.userId,
         machineobj.machineName,
         machineobj.post,
         machineobj.minLength,
@@ -34,7 +33,6 @@ const insertMachine = (user,machineobj) => {
         }else{
             con.execute(sql, [
                 user,
-                machineobj.userId,
                 machineobj.machineName,
                 machineobj.post,
                 machineobj.minLength,
@@ -56,7 +54,24 @@ const insertMachine = (user,machineobj) => {
 }
 
 const getMachine = (user, machineId)=>{
-    const sql = "SELECT * FROM "
+    const sql = `SELECT * FROM machine 
+                JOIN userdata ON machine.userID = userdata.UserID 
+                WHERE secId = ? AND machineId = ?`
+
+    return new Promise((resolve,reject)=>{
+        con.execute(sql,[user,machineId], function(err,result){
+            if (err){
+                reject(new Error(err.message))
+            }else{
+                resolve(result)
+            }
+        })
+    })
 }
 
+const updateMachine = (user, machineobj) => {
+    
+}
+
+exports.getMachine = getMachine;
 exports.insertMachine = insertMachine;

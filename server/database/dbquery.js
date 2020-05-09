@@ -1,80 +1,45 @@
-const db = require("mysql2")
 
-//database connection details
-const con = db.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "organize"
-})
-
-//connect to database
-con.connect(function(err){
-    if(err) throw err;
-    console.log("connected to database")
-})
+const {insertGet,signInQuery} = require('./query')
 
 //projects
 const getProjects = (user) =>{
     const sql = "SELECT * FROM project JOIN userdata ON project.userId=userdata.userId WHERE secId = ?"
-    return new Promise ((resolve, reject) => {
-        console.log("user inside promise: ")
-        console.log(user)
-        con.execute(sql, [user], function (err, result){
-            if (err){
-                console.log(err.message)
-                reject(new Error(err.message))
-            }
-            resolve(result)
-        })
-    })
+    const args = [user]
+    return insertGet(sql,args)
 }
 const insertProject = (user, projectName) => {
     const sql = "INSERT INTO project (userId,projectName) VALUES ((SELECT userId FROM userdata WHERE secId=?),?)"
-    return new Promise((resolve, reject)=>{
-        con.execute(sql, [user,projectName], function(err, result){
-            if (err){
-                console.log(err.message)
-                reject(new Error(err.message))
-            }else{
-                resolve(result)
-            }
-        })
-    })
+    const args = [user,projectName]
+    return insertGet(sql,args)
 }
 
 //parts
 const getParts = (project, user) =>{
     const sql = "SELECT * FROM bushing JOIN project ON bushing.projectId = project.projectId JOIN userdata ON project.userId = userdata.userId WHERE bushing.projectId = ? AND userdata.secId='?'"
-    return new Promise ((resolve, reject) => {
-        con.execute(sql, [project, user], function (err, result){
-            if (err){
-                console.log(err.message)
-                reject(new Error(err.message))
-            }
-            resolve(result)
-        })
-    })
+    const args = [project, user]
+    return insertGet(sql,args)
 }
 const insertPart = (user,partobj) => {
-    const sql = `INSERT INTO bushing 
-                (projectId, 
-                partName, 
-                outsideDiameter, 
-                insideDiameter, 
-                length, 
-                outsideChamfer, 
-                insideChamfer, 
-                outsideChamferType, 
-                insideChamferType) 
-                VALUES (
-                (SELECT projectId FROM project 
-                JOIN userdata ON project.userId = userdata.userId 
-                WHERE projectId=? AND secId=?),
-                ?,?,?,?,?,?,?,?)`
+    const sql = 
+        `INSERT INTO bushing 
+        (projectId, 
+        partName, 
+        outsideDiameter, 
+        insideDiameter, 
+        length, 
+        outsideChamfer, 
+        insideChamfer, 
+        outsideChamferType, 
+        insideChamferType) 
+        VALUES (
+        (SELECT projectId FROM project 
+        JOIN userdata ON project.userId = userdata.userId 
+        WHERE projectId=? AND secId=?),
+        ?,?,?,?,?,?,?,?)`
     
-    const values = [
-        partobj.projectId, 
+    const args = [
+        partobj.projectId,
+        user, 
         partobj.partName, 
         partobj.outsideDiameter, 
         partobj.insideDiameter,
@@ -84,74 +49,27 @@ const insertPart = (user,partobj) => {
         partobj.outsideChamferType,
         partobj.insideChamferType
     ]
-    return new Promise((resolve, reject) => {
-        if (values.includes(undefined)){
-            reject(new Error("undefined"))
-        }else{
-            con.execute(sql,[
-                partobj.projectId,
-                user, 
-                partobj.partName, 
-                partobj.outsideDiameter, 
-                partobj.insideDiameter,
-                partobj.partLength,
-                partobj.outsideChamfer,
-                partobj.insideChamfer,
-                partobj.outsideChamferType,
-                partobj.insideChamferType
-            ], 
-            function (err, result){
-                if (err){
-                    reject(new Error(err.message))
-                }else{
-                    resolve(result)
-                }
-            })
-        }
-    })
+    return insertGet(sql,args)
 }
 
 //orders are renamed to batches
 const getBatches = (user) => {
     const sql = "SELECT * FROM batch JOIN userdata ON batch.userId=userdata.userId WHERE secId = ?"
-    return new Promise((resolve,reject) => {
-        con.execute(sql, [user], function (err, result){
-            if (err){
-                console.log(err.message)
-                reject(new Error(err.message))
-            }
-            resolve(result)
-        })
-    })
+    const args = [user]
+    return insertGet(sql,args)
 }
 const getBatchContent = (user,batch) => {
-    const sql = "SELECT partId FROM batchcontent JOIN batch ON batchcontent.batchId=batch.batchId JOIN userdata ON batch.userID = userdata.userId WHERE secId = ? batchId = ?"
-    return new Promise((resolve, reject) => {
-        con.execute(sql, [user, batch], function (err, result) {
-            if (err){
-                console.log(err.message)
-                reject(new Error(err.message))
-            }
-            resolve(result);
-        })
-    })
+    const sql =`SELECT partId FROM batchcontent 
+                JOIN batch ON batchcontent.batchId=batch.batchId
+                JOIN userdata ON batch.userId = userdata.userId 
+                WHERE batchcontent.batchId = ? AND userdata.secId = ?`
+    const args = [batch, user]
+    return insertGet(sql,args)
 }
 const insertBatch = (user, batchName) => {
     const sql = "INSERT INTO batch (batchName, userId) VALUES (?,(SELECT userID FROM userdata WHERE secId=?))"
-    const values = [
-        batchName,
-        user
-    ]
-    return new Promise((resolve,reject)=>{
-        con.execute(sql, [batchName,user], function(err, result){
-            if (err){
-                console.log(err.message)
-                reject(new Error(err.message))
-            }else{
-                resolve(result)
-            }
-        })
-    })
+    const args = [batchName,user]
+    return insertGet(sql,args)
 }
 const partToBatch = (user,batchId, partId) => {
     console.log(user)
@@ -166,21 +84,8 @@ const partToBatch = (user,batchId, partId) => {
         JOIN project ON bushing.projectId = project.projectId 
         JOIN userdata ON project.userId = userdata.userID 
         WHERE partId=? AND secId=?))`
-
-    const values = [
-        batchId,
-        partId
-    ]
-    return new Promise((resolve, reject)=>{
-        con.execute(sql, [batchId,user,partId,user], function(err, result){
-            if (err){
-                console.log(err.message)
-                reject(new Error(err.message))
-            }else{
-                resolve(result)
-            }
-        })
-    })
+    const args = [batchId,user,partId,user]
+    return insertGet(sql,args)
 }
 
 
@@ -188,46 +93,21 @@ const partToBatch = (user,batchId, partId) => {
 const signIn = (email, pwhash,newuid) => {
     const sql = "INSERT INTO login (username, password ) VALUES (?,?)"
     const sql2 = "INSERT INTO userdata (username, userType, secId) VALUES (?,?,?)"
-    return new Promise((resolve, reject) => {
-        con.execute(sql, [email, pwhash], function (err, result){
-            if (err){
-                console.log(err.message)
-                reject(new Error(err.message))
-            }
-            con.execute(sql2, [email, "client",newuid], function(err, result2){
-                if (err){
-                    reject(new Error(err.message))
-                }
-                resolve(result2)
-            })
-        })
-    })
+    const args = [email,pwhash]
+    const args2 = [email,'client',newuid]
+    return signInQuery(sql,sql2,args,args2)
 }
 const logIn = (email) => {
     const sql = "SELECT password FROM login WHERE username = ?"
-    return new Promise((resolve, reject) => {
-        con.execute(sql, [email], function(err, result){
-            if (err){
-                console.log(err.message)
-                reject(new Error(err.message))
-            }
-            resolve(result)
-        })
-    })
+    const args = [email]
+    return insertGet(sql, args)
 }
 
 
 const getUserId  = (username) => {
     const sql = "SELECT secId FROM userdata WHERE username = (?)"
-    return new Promise((resolve,reject)=>{
-        con.execute(sql,[username], function(err, result){
-            if (err){
-                console.log(err.message)
-                reject(new Error(err.message))
-            }
-            resolve(result)
-        })
-    })
+    const args = [username]
+    return insertGet(sql, args)
 }
 
 exports.getUserId = getUserId;

@@ -1,19 +1,6 @@
 const partsRouter = require('express').Router()
 const queries = require("../database/dbquery")
-
-const isAuth = (req,res,next) =>{
-    if (req.session.email){
-        console.log("req.session.email = true")
-        console.log(req.session.email)
-        const user = req.session.userid
-        console.log(user)
-        return next();
-    }else{
-        console.log("unathenticated request")
-        res.send("unauthenticated request")
-    }
-  }
-
+const isAuth = require("./isAuth")
 
 //projects
 partsRouter.post("/getprojects", isAuth, function(req,res){
@@ -93,10 +80,10 @@ partsRouter.post("/getbatches", isAuth, function(req, res){
         })
 })
 partsRouter.post("/getbatchcontent", isAuth, function(req,res){
-    const batch = req.body.batch
     const user = req.session.userid
+    const batch = req.body.batch
     console.log(batch)
-    queries.getBatchContent(batch)
+    queries.getBatchContent(user,batch)
         .then(result => {
             console.log(result)
             res.send(result)
