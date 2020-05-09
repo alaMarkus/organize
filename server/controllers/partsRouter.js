@@ -14,15 +14,9 @@ const isAuth = (req,res,next) =>{
     }
   }
 
-partsRouter.post("/useridtest", function(req,res){
-    queries.getUserId("toimiikos@hotmail.com")
-        .then(result=>{
-            console.log(result)
-            res.send("thiswasproblem")
-        })
-})
 
-partsRouter.post("/projects", isAuth, function(req,res){
+//projects
+partsRouter.post("/getprojects", isAuth, function(req,res){
     const user = req.session.userid
     queries.getProjects(user)
         .then(result=>{
@@ -36,67 +30,6 @@ partsRouter.post("/projects", isAuth, function(req,res){
             console.log(e)
         })
 })
-
-partsRouter.post("/parts", isAuth, function(req,res){
-    const project = req.body.project
-    console.log(project)
-
-    queries.getParts(project)
-        .then(result=>{
-            console.log(result)
-            res.send(result)
-        })
-        .catch(function(e){
-            res.send("something went wrong")
-            console.log("something went wrong")
-            console.log(e)
-        })
-})
-
-partsRouter.post("/batches", isAuth, function(req, res){
-    const user = req.session.userid
-    console.log(user)
-    queries.getBatches(user)
-        .then(result => {
-            console.log(result)
-            res.send(result)
-        })
-        .catch(function(e){
-            res.send("something went wrong")
-            console.log("something went wrong")
-            console.log(e)
-        })
-})
-
-partsRouter.post("/batchcontent", isAuth, function(req,res){
-    const batch = req.body.batch
-    console.log(batch)
-    queries.getBatchContent(batch)
-        .then(result => {
-            console.log(result)
-            res.send(result)
-        })
-        .catch(function(e){
-            res.send("something went wrong")
-            console.log("something went wrong")
-            console.log(e)
-        })
-})
-
-partsRouter.post("/insertpart", isAuth, function(req, res,){
-    const part = req.body.partobj
-    //console.log(part)
-    queries.insertPart(part)
-        .then(function(result){
-            res.send("inserted part succesfully")
-        })
-        .catch(function(e){
-            res.send("something went wrong")
-            console.log("something went wrong")
-            console.log(e)
-        })
-})
-
 partsRouter.post("/insertproject", isAuth, function(req, res){
     const user = req.session.userid
     const projectName = req.body.projectName
@@ -110,6 +43,70 @@ partsRouter.post("/insertproject", isAuth, function(req, res){
         })
 })
 
+
+//parts
+partsRouter.post("/getparts", isAuth, function(req,res){
+    const user = req.session.userid
+    const project = req.body.project
+    console.log(project)
+
+    queries.getParts(project,user)
+        .then(result=>{
+            console.log(result)
+            res.send(result)
+        })
+        .catch(function(e){
+            res.send("something went wrong")
+            console.log("something went wrong")
+            console.log(e)
+        })
+})
+partsRouter.post("/insertpart", isAuth, function(req, res,){
+    const part = req.body.partobj
+    const user = req.session.userid
+    //console.log(part)
+    queries.insertPart(user,part)
+        .then(function(result){
+            res.send("inserted part succesfully")
+        })
+        .catch(function(e){
+            res.send("something went wrong")
+            console.log("something went wrong")
+            console.log(e)
+        })
+})
+
+
+//batches
+partsRouter.post("/getbatches", isAuth, function(req, res){
+    const user = req.session.userid
+    console.log(user)
+    queries.getBatches(user)
+        .then(result => {
+            console.log(result)
+            res.send(result)
+        })
+        .catch(function(e){
+            res.send("something went wrong")
+            console.log("something went wrong")
+            console.log(e)
+        })
+})
+partsRouter.post("/getbatchcontent", isAuth, function(req,res){
+    const batch = req.body.batch
+    const user = req.session.userid
+    console.log(batch)
+    queries.getBatchContent(batch)
+        .then(result => {
+            console.log(result)
+            res.send(result)
+        })
+        .catch(function(e){
+            res.send("something went wrong")
+            console.log("something went wrong")
+            console.log(e)
+        })
+})
 partsRouter.post("/insertbatch", isAuth, function(req,res){
     const user = req.session.userid
     const batchName = req.body.batchName
@@ -122,11 +119,11 @@ partsRouter.post("/insertbatch", isAuth, function(req,res){
             console.log(e)
         })
 })
-
-partsRouter.post("/addtobatch", isAuth, function(req,res){
+partsRouter.post("/parttobatch", isAuth, function(req,res){
+    const user = req.session.userid
     const batchId = req.body.batchId
     const partId = req.body.partId
-    queries.partToBatch(batchId,partId)
+    queries.partToBatch(user,batchId,partId)
         .then(function(result){
             res.send("inserted part to batch")
         })
@@ -135,5 +132,8 @@ partsRouter.post("/addtobatch", isAuth, function(req,res){
             console.log(e)
         })
 })
+
+
+
 
 module.exports = partsRouter;

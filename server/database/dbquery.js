@@ -1,4 +1,4 @@
-const db = require("mysql")
+const db = require("mysql2")
 
 //database connection details
 const con = db.createConnection({
@@ -14,12 +14,13 @@ con.connect(function(err){
     console.log("connected to database")
 })
 
+//projects
 const getProjects = (user) =>{
-    const sql = "SELECT * FROM project WHERE userId = ?"
+    const sql = "SELECT * FROM project JOIN userdata ON project.userId=userdata.userId WHERE secId = ?"
     return new Promise ((resolve, reject) => {
         console.log("user inside promise: ")
         console.log(user)
-        con.query(sql, [user], function (err, result){
+        con.execute(sql, [user], function (err, result){
             if (err){
                 console.log(err.message)
                 reject(new Error(err.message))
@@ -28,11 +29,25 @@ const getProjects = (user) =>{
         })
     })
 }
+const insertProject = (user, projectName) => {
+    const sql = "INSERT INTO project (userId,projectName) VALUES ((SELECT userId FROM userdata WHERE secId=?),?)"
+    return new Promise((resolve, reject)=>{
+        con.execute(sql, [user,projectName], function(err, result){
+            if (err){
+                console.log(err.message)
+                reject(new Error(err.message))
+            }else{
+                resolve(result)
+            }
+        })
+    })
+}
 
-const getParts = (project) =>{
-    const sql = "SELECT * FROM bushing WHERE projectId = ?"
+//parts
+const getParts = (project, user) =>{
+    const sql = "SELECT * FROM bushing JOIN project ON bushing.projectId = project.projectId JOIN userdata ON project.userId = userdata.userId WHERE bushing.projectId = ? AND userdata.secId='?'"
     return new Promise ((resolve, reject) => {
-        con.query(sql, [project], function (err, result){
+        con.execute(sql, [project, user], function (err, result){
             if (err){
                 console.log(err.message)
                 reject(new Error(err.message))
@@ -41,36 +56,23 @@ const getParts = (project) =>{
         })
     })
 }
-
-//orders are renamed to batches
-const getBatches = (user) => {
-    const sql = "SELECT * FROM batch WHERE userId  = ?"
-    return new Promise((resolve,reject) => {
-        con.query(sql, [user], function (err, result){
-            if (err){
-                console.log(err.message)
-                reject(new Error(err.message))
-            }
-            resolve(result)
-        })
-    })
-}
-
-const getBatchContent = (batch) => {
-    const sql = "SELECT partId FROM batchcontent WHERE batchId = ?"
-    return new Promise((resolve, reject) => {
-        con.query(sql, [batch], function (err, result) {
-            if (err){
-                console.log(err.message)
-                reject(new Error(err.message))
-            }
-            resolve(result);
-        })
-    })
-}
-
-const insertPart = (partobj) => {
-    const sql = "INSERT INTO bushing (projectId, partName, outsideDiameter, insideDiameter, length, outsideChamfer, insideChamfer, outsideChamferType, insideChamferType) values (?)"
+const insertPart = (user,partobj) => {
+    const sql = `INSERT INTO bushing 
+                (projectId, 
+                partName, 
+                outsideDiameter, 
+                insideDiameter, 
+                length, 
+                outsideChamfer, 
+                insideChamfer, 
+                outsideChamferType, 
+                insideChamferType) 
+                VALUES (
+                (SELECT projectId FROM project 
+                JOIN userdata ON project.userId = userdata.userId 
+                WHERE projectId=? AND secId=?),
+                ?,?,?,?,?,?,?,?)`
+    
     const values = [
         partobj.projectId, 
         partobj.partName, 
@@ -86,7 +88,19 @@ const insertPart = (partobj) => {
         if (values.includes(undefined)){
             reject(new Error("undefined"))
         }else{
-            con.query(sql,[values], function (err, result){
+            con.execute(sql,[
+                partobj.projectId,
+                user, 
+                partobj.partName, 
+                partobj.outsideDiameter, 
+                partobj.insideDiameter,
+                partobj.partLength,
+                partobj.outsideChamfer,
+                partobj.insideChamfer,
+                partobj.outsideChamferType,
+                partobj.insideChamferType
+            ], 
+            function (err, result){
                 if (err){
                     reject(new Error(err.message))
                 }else{
@@ -97,32 +111,39 @@ const insertPart = (partobj) => {
     })
 }
 
-const insertProject = (user, projectName) => {
-    const sql = "INSERT INTO project (userId,projectName) VALUES (?)"
-    const values = [
-        user,
-        projectName
-    ]
-    return new Promise((resolve, reject)=>{
-        con.query(sql, [values], function(err, result){
+//orders are renamed to batches
+const getBatches = (user) => {
+    const sql = "SELECT * FROM batch JOIN userdata ON batch.userId=userdata.userId WHERE secId = ?"
+    return new Promise((resolve,reject) => {
+        con.execute(sql, [user], function (err, result){
             if (err){
                 console.log(err.message)
                 reject(new Error(err.message))
-            }else{
-                resolve(result)
             }
+            resolve(result)
         })
     })
 }
-
+const getBatchContent = (user,batch) => {
+    const sql = "SELECT partId FROM batchcontent JOIN batch ON batchcontent.batchId=batch.batchId JOIN userdata ON batch.userID = userdata.userId WHERE secId = ? batchId = ?"
+    return new Promise((resolve, reject) => {
+        con.execute(sql, [user, batch], function (err, result) {
+            if (err){
+                console.log(err.message)
+                reject(new Error(err.message))
+            }
+            resolve(result);
+        })
+    })
+}
 const insertBatch = (user, batchName) => {
-    const sql = "INSERT INTO batch (batchName, userId) VALUES (?)"
+    const sql = "INSERT INTO batch (batchName, userId) VALUES (?,(SELECT userID FROM userdata WHERE secId=?))"
     const values = [
         batchName,
         user
     ]
     return new Promise((resolve,reject)=>{
-        con.query(sql, [values], function(err, result){
+        con.execute(sql, [batchName,user], function(err, result){
             if (err){
                 console.log(err.message)
                 reject(new Error(err.message))
@@ -132,15 +153,26 @@ const insertBatch = (user, batchName) => {
         })
     })
 }
+const partToBatch = (user,batchId, partId) => {
+    console.log(user)
+    const sql = `
+        INSERT INTO 
+        batchcontent(batchId, partId) 
+        VALUES ((SELECT batchId FROM batch 
+        JOIN userdata 
+        ON batch.userId = userdata.userId 
+        WHERE batchId=? AND secId = ?),
+        (SELECT partId FROM bushing 
+        JOIN project ON bushing.projectId = project.projectId 
+        JOIN userdata ON project.userId = userdata.userID 
+        WHERE partId=? AND secId=?))`
 
-const partToBatch = (batchId, partId) => {
-    const sql = "INSERT INTO batchcontent (batchId, partId) VALUES (?)"
     const values = [
         batchId,
         partId
     ]
     return new Promise((resolve, reject)=>{
-        con.query(sql, [values], function(err, result){
+        con.execute(sql, [batchId,user,partId,user], function(err, result){
             if (err){
                 console.log(err.message)
                 reject(new Error(err.message))
@@ -152,17 +184,17 @@ const partToBatch = (batchId, partId) => {
 }
 
 
-
+//signinlogin
 const signIn = (email, pwhash,newuid) => {
     const sql = "INSERT INTO login (username, password ) VALUES (?,?)"
     const sql2 = "INSERT INTO userdata (username, userType, secId) VALUES (?,?,?)"
     return new Promise((resolve, reject) => {
-        con.query(sql, [email, pwhash], function (err, result){
+        con.execute(sql, [email, pwhash], function (err, result){
             if (err){
                 console.log(err.message)
                 reject(new Error(err.message))
             }
-            con.query(sql2, [email, "client",newuid], function(err, result2){
+            con.execute(sql2, [email, "client",newuid], function(err, result2){
                 if (err){
                     reject(new Error(err.message))
                 }
@@ -171,11 +203,10 @@ const signIn = (email, pwhash,newuid) => {
         })
     })
 }
-
 const logIn = (email) => {
     const sql = "SELECT password FROM login WHERE username = ?"
     return new Promise((resolve, reject) => {
-        con.query(sql, [email], function(err, result){
+        con.execute(sql, [email], function(err, result){
             if (err){
                 console.log(err.message)
                 reject(new Error(err.message))
@@ -185,10 +216,11 @@ const logIn = (email) => {
     })
 }
 
+
 const getUserId  = (username) => {
     const sql = "SELECT secId FROM userdata WHERE username = (?)"
     return new Promise((resolve,reject)=>{
-        con.query(sql,[username], function(err, result){
+        con.execute(sql,[username], function(err, result){
             if (err){
                 console.log(err.message)
                 reject(new Error(err.message))

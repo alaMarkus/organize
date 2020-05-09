@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express');
 const session = require('express-session')
 const partsRouter = require("./controllers/partsRouter")
+const machineRouter = require("./controllers/machineRouter")
 const auth = require("./controllers/auth")
 const app = express()
 const port = 8083;
@@ -18,7 +19,8 @@ app.use(session({
     saveUninitialized: false,
 }))
 
-app.use("/api", partsRouter)
+app.use("/api/machine", machineRouter)
+app.use("/api/part", partsRouter)
 app.use("/auth", auth)
 
 module.exports = app;
