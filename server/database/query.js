@@ -14,10 +14,8 @@ con.connect(function(err){
 
 const insertGet = (sql, args) =>  {
     return new Promise((resolve,reject)=>{
-        if (args.includes(undefined)){
-            reject(new Error("undefined"))
-        }else{
-            con.execute(sql, [...args], function(err,result){
+        if (args==undefined){
+            con.execute(sql, function(err, result){
                 if (err){
                     console.log("ERROR: ")
                     console.log(err.message)
@@ -26,6 +24,20 @@ const insertGet = (sql, args) =>  {
                     resolve(result)
                 }
             })
+        }else{
+            if (args.includes(undefined)){
+                reject(new Error("undefined"))
+            }else{
+                con.execute(sql, [...args], function(err,result){
+                    if (err){
+                        console.log("ERROR: ")
+                        console.log(err.message)
+                        reject(new Error(err.message))
+                    }else{
+                        resolve(result)
+                    }
+                })
+            }
         }
     })
 }

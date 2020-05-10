@@ -3,7 +3,7 @@ const {insertGet,signInQuery} = require('./query')
 
 //projects
 const getProjects = (user) =>{
-    const sql = "SELECT * FROM project JOIN userdata ON project.userId=userdata.userId WHERE secId = ?"
+    const sql = "SELECT projectId, projectName FROM project JOIN userdata ON project.userId=userdata.userId WHERE secId = ?"
     const args = [user]
     return insertGet(sql,args)
 }
@@ -15,9 +15,44 @@ const insertProject = (user, projectName) => {
 
 //parts
 const getParts = (project, user) =>{
-    const sql = "SELECT * FROM bushing JOIN project ON bushing.projectId = project.projectId JOIN userdata ON project.userId = userdata.userId WHERE bushing.projectId = ? AND userdata.secId='?'"
+    const sql =
+        `SELECT 
+        partId,
+        partName, 
+        outsideDiameter, 
+        insideDiameter, 
+        bushingLength, 
+        outsideChamfer, 
+        insideChamfer, 
+        outsideChamferType, 
+        insideChamferType
+        FROM bushing 
+        JOIN project ON bushing.projectId = project.projectId 
+        JOIN userdata ON project.userId = userdata.userId 
+        WHERE bushing.projectId = ? AND userdata.secId=?`
     const args = [project, user]
     return insertGet(sql,args)
+}
+
+const getPart = (partId, user) => {
+    const sql =
+        `SELECT 
+        partId,
+        partName, 
+        outsideDiameter, 
+        insideDiameter, 
+        bushingLength, 
+        outsideChamfer, 
+        insideChamfer, 
+        outsideChamferType, 
+        insideChamferType
+        FROM bushing JOIN project
+        ON bushing.projectId = project.projectId
+        JOIN userdata
+        ON project.userId = userdata.userId
+        WHERE partId = ? AND secId = ?`
+    const args = [partId, user]
+    return insertGet(sql,args)  
 }
 const insertPart = (user,partobj) => {
     const sql = 
@@ -26,7 +61,7 @@ const insertPart = (user,partobj) => {
         partName, 
         outsideDiameter, 
         insideDiameter, 
-        length, 
+        bushingLength, 
         outsideChamfer, 
         insideChamfer, 
         outsideChamferType, 
@@ -54,15 +89,16 @@ const insertPart = (user,partobj) => {
 
 //orders are renamed to batches
 const getBatches = (user) => {
-    const sql = "SELECT * FROM batch JOIN userdata ON batch.userId=userdata.userId WHERE secId = ?"
+    const sql = "SELECT batchId, batchName FROM batch JOIN userdata ON batch.userId=userdata.userId WHERE secId = ?"
     const args = [user]
     return insertGet(sql,args)
 }
 const getBatchContent = (user,batch) => {
-    const sql =`SELECT partId FROM batchcontent 
-                JOIN batch ON batchcontent.batchId=batch.batchId
-                JOIN userdata ON batch.userId = userdata.userId 
-                WHERE batchcontent.batchId = ? AND userdata.secId = ?`
+    const sql =
+            `SELECT partId FROM batchcontent 
+            JOIN batch ON batchcontent.batchId=batch.batchId
+            JOIN userdata ON batch.userId = userdata.userId 
+            WHERE batchcontent.batchId = ? AND userdata.secId = ?`
     const args = [batch, user]
     return insertGet(sql,args)
 }
@@ -110,6 +146,7 @@ const getUserId  = (username) => {
     return insertGet(sql, args)
 }
 
+exports.getPart = getPart;
 exports.getUserId = getUserId;
 exports.partToBatch = partToBatch;
 exports.insertBatch = insertBatch;

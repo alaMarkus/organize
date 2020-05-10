@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express');
 const session = require('express-session')
+const matchRouter = require('./logic/matchRouter')
 const partsRouter = require("./controllers/partsRouter")
 const machineRouter = require("./controllers/machineRouter")
 const auth = require("./controllers/auth")
@@ -19,6 +20,7 @@ app.use(session({
     saveUninitialized: false,
 }))
 
+app.use("/api", matchRouter)
 app.use("/api/machine", machineRouter)
 app.use("/api/part", partsRouter)
 app.use("/auth", auth)

@@ -29,6 +29,17 @@ machineRouter.post("/getmachine", isAuth, function(req,res){
             res.send("something went wrong")
         })
 })
+machineRouter.post("/getallmachines", isAuth, function(req,res){
+    queries.getAllMachines()
+        .then(result=>{
+            res.send(result)
+        })
+        .catch(function(e){
+            console.log("something went wrong")
+            console.log(e)
+            res.send("something went wrong")
+        })
+})
 
 machineRouter.post("/updatemachine",isAuth ,function(req,res){
     const user = req.session.userid

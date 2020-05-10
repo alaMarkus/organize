@@ -36,7 +36,6 @@ partsRouter.post("/getparts", isAuth, function(req,res){
     const user = req.session.userid
     const project = req.body.project
     console.log(project)
-
     queries.getParts(project,user)
         .then(result=>{
             console.log(result)
@@ -48,6 +47,23 @@ partsRouter.post("/getparts", isAuth, function(req,res){
             console.log(e)
         })
 })
+
+partsRouter.post("/getpart", isAuth, function(req,res){
+    const user = req.session.userid
+    const part = req.body.partId
+    console.log(part)
+    queries.getPart(part,user)
+        .then(result=>{
+            console.log(result)
+            res.send(result)
+        })
+        .catch(function(e){
+            res.send("something went wrong")
+            console.log("something went wrong")
+            console.log(e)
+        })
+})
+
 partsRouter.post("/insertpart", isAuth, function(req, res,){
     const part = req.body.partobj
     const user = req.session.userid

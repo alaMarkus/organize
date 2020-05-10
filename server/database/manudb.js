@@ -192,6 +192,12 @@ const updatePost = (user,postobj) => {
     return insertGet(sql,args)
 }
 
+const getAllMachines = () =>{
+    sql = "SELECT * FROM machine"
+    return insertGet(sql)
+}
+
+exports.getAllMachines = getAllMachines;
 exports.updatePost = updatePost;
 exports.getPost = getPost;
 exports.insertPost = insertPost;
