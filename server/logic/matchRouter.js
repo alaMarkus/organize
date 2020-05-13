@@ -1,8 +1,8 @@
 const matchRouter = require('express').Router()
 const isAuth = require('../controllers/isAuth')
 const match = require('./matchMachines')
-const queries = require("../database/manudb")
-const partQueries = require("../database/dbquery")
+const queries = require("../database/machineQuery")
+const partQueries = require("../database/partsQuery")
 
 matchRouter.post("/match",isAuth, function(req,res){
     const user = req.session.userid

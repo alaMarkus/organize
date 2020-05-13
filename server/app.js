@@ -4,7 +4,8 @@ const session = require('express-session')
 const matchRouter = require('./logic/matchRouter')
 const partsRouter = require("./controllers/partsRouter")
 const machineRouter = require("./controllers/machineRouter")
-const auth = require("./controllers/auth")
+const auth = require("./controllers/authRouter")
+const testRouter = require('./controllers/testRouter')
 const app = express()
 const port = 8083;
 
@@ -20,6 +21,7 @@ app.use(session({
     saveUninitialized: false,
 }))
 
+app.use("/test",testRouter)
 app.use("/api", matchRouter)
 app.use("/api/machine", machineRouter)
 app.use("/api/part", partsRouter)

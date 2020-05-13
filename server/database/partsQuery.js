@@ -1,5 +1,5 @@
 
-const {insertGet,signInQuery} = require('./query')
+const {insertGet} = require('./dbConnetion')
 
 //projects
 const getProjects = (user) =>{
@@ -10,6 +10,16 @@ const getProjects = (user) =>{
 const insertProject = (user, projectName) => {
     const sql = "INSERT INTO project (userId,projectName) VALUES ((SELECT userId FROM userdata WHERE secId=?),?)"
     const args = [user,projectName]
+    return insertGet(sql,args)
+}
+const deleteProject = (projectId, user) => {
+    const sql = "DELETE project FROM project JOIN userdata ON project.userId = userdata.userId WHERE projectId = ? AND secId = ?"
+    const args = [projectId,user]
+    return insertGet(sql,args)
+}
+const deleteProjectWithName = (projectName, user) => {
+    const sql  = "DELETE project FROM project JOIN userdata ON project.userId=userdata.userId WHERE projectName = ? AND secId = ?"
+    const args = [projectName,user]
     return insertGet(sql,args)
 }
 
@@ -86,6 +96,15 @@ const insertPart = (user,partobj) => {
     ]
     return insertGet(sql,args)
 }
+const deletePart = (user,partId) => {
+    const sql = 
+        `DELETE bushing FROM bushing
+        JOIN project ON bushing.projectId = project.projectId 
+        JOIN userdata ON project.userId = userdata.userId 
+        WHERE bushing.projectId = ? AND userdata.secId=?`
+    const args = [partId,user]
+    return insertGet(sql,args)
+}
 
 //orders are renamed to batches
 const getBatches = (user) => {
@@ -107,52 +126,53 @@ const insertBatch = (user, batchName) => {
     const args = [batchName,user]
     return insertGet(sql,args)
 }
+const deleteBatch = (batchId, user) => {
+    const sql = `DELETE batch FROM batch JOIN userdata ON batch.userId = userdata.userId WHERE batchId = ? AND secId = ?`
+    const args = [batchId, user]
+    return insertGet(sql,args)
+}
+
 const partToBatch = (user,batchId, partId) => {
     console.log(user)
+    console.log(batchId)
+    console.log(partId)
     const sql = `
         INSERT INTO 
-        batchcontent(batchId, partId) 
+        batchcontent(batchId, partId)
         VALUES ((SELECT batchId FROM batch 
         JOIN userdata 
         ON batch.userId = userdata.userId 
         WHERE batchId=? AND secId = ?),
         (SELECT partId FROM bushing 
         JOIN project ON bushing.projectId = project.projectId 
-        JOIN userdata ON project.userId = userdata.userID 
+        JOIN userdata ON project.userId = userdata.userId
         WHERE partId=? AND secId=?))`
     const args = [batchId,user,partId,user]
     return insertGet(sql,args)
 }
-
-
-//signinlogin
-const signIn = (email, pwhash,newuid) => {
-    const sql = "INSERT INTO login (username, password ) VALUES (?,?)"
-    const sql2 = "INSERT INTO userdata (username, userType, secId) VALUES (?,?,?)"
-    const args = [email,pwhash]
-    const args2 = [email,'client',newuid]
-    return signInQuery(sql,sql2,args,args2)
-}
-const logIn = (email) => {
-    const sql = "SELECT password FROM login WHERE username = ?"
-    const args = [email]
-    return insertGet(sql, args)
+const removePartFromBatch = (user,partId,batchId) => {
+    console.log(user)
+    console.log(batchId)
+    console.log(partId)
+    const sql = 
+        `DELETE batchcontent FROM batchcontent 
+        JOIN batch ON batchcontent.batchId = batch.batchId 
+        JOIN userdata ON batch.userId = userdata.userId
+        WHERE batchcontent.partId = ? AND batchcontent.batchId = ? AND secId = ?`
+    const args = [partId,batchId,user]
+    return insertGet(sql,args)
 }
 
 
-const getUserId  = (username) => {
-    const sql = "SELECT secId FROM userdata WHERE username = (?)"
-    const args = [username]
-    return insertGet(sql, args)
-}
-
+exports.deleteProjectWithName = deleteProjectWithName;
+exports.removePartFromBatch = removePartFromBatch;
+exports.deleteBatch = deleteBatch;
+exports.deletePart = deletePart;
+exports.deleteProject = deleteProject;
 exports.getPart = getPart;
-exports.getUserId = getUserId;
 exports.partToBatch = partToBatch;
 exports.insertBatch = insertBatch;
 exports.insertProject = insertProject;
-exports.logIn = logIn;
-exports.signIn = signIn;
 exports.insertPart = insertPart;
 exports.getBatchContent = getBatchContent;
 exports.getBatches = getBatches;

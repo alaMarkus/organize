@@ -1,5 +1,5 @@
 const machineRouter = require('express').Router();
-const queries = require("../database/manudb");
+const queries = require("../database/machineQuery");
 const isAuth = require("./isAuth")
 
 machineRouter.post("/insertmachine", isAuth, function(req,res){

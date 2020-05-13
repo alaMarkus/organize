@@ -1,6 +1,8 @@
 const auth = require('express').Router()
-const queries = require('../database/dbquery')
+const queries = require('../database/authQuery')
+const {closeConnetion} = require('../database/dbConnetion')
 const argon = require('argon2')
+const isAuth = require('./isAuth')
 const { v4: uuidv4 } = require('uuid');
 
 
@@ -16,9 +18,9 @@ auth.post("/signin", async function (req, res){
     queries.signIn(email, hashed, newuid)
         .then(res.send("succesfully created user with email "+email))
         .catch(function(e){
-          res.send("something went wrong")
-          console.log("something went wrong")
-          console.log(e)
+            console.log("something went wrong")
+            console.log(e)
+            //res.send("something went wrong")
       })
 })
 
@@ -41,6 +43,7 @@ auth.post("/login", async function(req, res){
                         res.send("welcome in")
                     })
                 } else {
+                  res.send("wrong password")
                   console.log("wrong password")
                 }
               } catch (err) {
@@ -55,8 +58,9 @@ auth.post("/login", async function(req, res){
       })
 })
 
-auth.post("/logout", function(req, res){
-
+auth.post("/logout",isAuth, function(req, res){
+  req.session.destroy()
+  res.send("logged out")
 })
 
 module.exports = auth;

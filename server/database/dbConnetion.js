@@ -1,20 +1,39 @@
 const db = require("mysql2")
-const con = db.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "organize"
-})
 
-//connect to database
+const con = db.createConnection(mode())
+
+function mode(){
+    if(process.env.NODE_ENV==='test'){
+        return ({
+            host: "localhost",
+            user: "root",
+            password: "",
+            database: "organizetest",
+            multipleStatements: true
+        })
+    }else{
+        return ({
+            host: "localhost",
+            user: "root",
+            password: "",
+            database: "organize"
+        })
+    }
+}
+
+
 con.connect(function(err){
     if(err) throw err;
     console.log("connected to database")
 })
 
+const closeConnetion = () =>{
+    con.end()
+}
+
 const insertGet = (sql, args) =>  {
     return new Promise((resolve,reject)=>{
-        if (args==undefined){
+        if (args===undefined){
             con.execute(sql, function(err, result){
                 if (err){
                     console.log("ERROR: ")
@@ -26,7 +45,7 @@ const insertGet = (sql, args) =>  {
             })
         }else{
             if (args.includes(undefined)){
-                reject(new Error("undefined"))
+                reject(new Error("undefined value in args"))
             }else{
                 con.execute(sql, [...args], function(err,result){
                     if (err){
@@ -64,5 +83,6 @@ const signInQuery = (sql,sql2,args,args2) => {
     })
 }
 
+exports.closeConnetion = closeConnetion;
 exports.signInQuery = signInQuery;
 exports.insertGet = insertGet;

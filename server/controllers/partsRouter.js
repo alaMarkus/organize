@@ -1,5 +1,5 @@
 const partsRouter = require('express').Router()
-const queries = require("../database/dbquery")
+const queries = require("../database/partsQuery")
 const isAuth = require("./isAuth")
 
 //projects
@@ -22,7 +22,19 @@ partsRouter.post("/insertproject", isAuth, function(req, res){
     const projectName = req.body.projectName
     queries.insertProject(user, projectName)
         .then(function(result){
-            res.send("inserted project succesfully")
+            res.send("inserted project")
+        })
+        .catch(function(e){
+            res.send("something went wrong")
+            console.log(e)
+        })
+})
+partsRouter.post("/deleteproject", isAuth, function(req,res){
+    const user = req.session.userid
+    const projectId = req.body.projectId
+    queries.deleteProject(projectId,user)
+        .then(function(result){
+            res.send("deleted project")
         })
         .catch(function(e){
             res.send("something went wrong")
@@ -30,11 +42,23 @@ partsRouter.post("/insertproject", isAuth, function(req, res){
         })
 })
 
+// I DONT THINK I SHOULD NEED THIS
+partsRouter.post("/deleteprojectwithname",isAuth,function(req,res){
+    const user = req.session.userId
+    const projectName = req.body.projectName
+    queries.deleteProjectWithName(projectName,user)
+        .then(res.send("deleted project"))
+        .catch(function(e){
+            res.send("something went wrong")
+            console.log(e)
+        })        
+})
+
 
 //parts
 partsRouter.post("/getparts", isAuth, function(req,res){
     const user = req.session.userid
-    const project = req.body.project
+    const project = req.body.projectId
     console.log(project)
     queries.getParts(project,user)
         .then(result=>{
@@ -70,7 +94,7 @@ partsRouter.post("/insertpart", isAuth, function(req, res,){
     //console.log(part)
     queries.insertPart(user,part)
         .then(function(result){
-            res.send("inserted part succesfully")
+            res.send("inserted part")
         })
         .catch(function(e){
             res.send("something went wrong")
@@ -79,6 +103,19 @@ partsRouter.post("/insertpart", isAuth, function(req, res,){
         })
 })
 
+partsRouter.post("/deletepart",isAuth,function(req,res){
+    const user = req.session.userid
+    const partId = req.body.partId
+    queries.deletePart(user,partId)
+        .then(function(result){
+            res.send("part deleted")
+        })
+        .catch(function(e){
+            res.send("something went wrong")
+            console.log("something went wrong")
+            console.log(e)
+        })
+})
 
 //batches
 partsRouter.post("/getbatches", isAuth, function(req, res){
@@ -97,7 +134,7 @@ partsRouter.post("/getbatches", isAuth, function(req, res){
 })
 partsRouter.post("/getbatchcontent", isAuth, function(req,res){
     const user = req.session.userid
-    const batch = req.body.batch
+    const batch = req.body.batchId
     console.log(batch)
     queries.getBatchContent(user,batch)
         .then(result => {
@@ -115,13 +152,27 @@ partsRouter.post("/insertbatch", isAuth, function(req,res){
     const batchName = req.body.batchName
     queries.insertBatch(user, batchName)
         .then(function(result){
-            res.send("created batch succesfully")
+            res.send("created batch")
         })
         .catch(function(e){
             res.send("something went wrong")
             console.log(e)
         })
 })
+
+partsRouter.post("/deletebatch", isAuth, function(req,res){
+    const user = req.session.userid
+    const batchId = req.body.batchId
+    queries.deleteBatch(batchId,user)
+        .then(function(result){
+            res.send("deleted batch")
+        })
+        .catch(function(e){
+            res.send("something went wrong")
+            console.log(e)
+        })
+})
+
 partsRouter.post("/parttobatch", isAuth, function(req,res){
     const user = req.session.userid
     const batchId = req.body.batchId
@@ -129,6 +180,19 @@ partsRouter.post("/parttobatch", isAuth, function(req,res){
     queries.partToBatch(user,batchId,partId)
         .then(function(result){
             res.send("inserted part to batch")
+        })
+        .catch(function(e){
+            res.send("something went wrong")
+            console.log(e)
+        })
+})
+partsRouter.post("/removepartfrombatch", isAuth, function(req,res){
+    const user = req.session.userid
+    const partId = req.body.partId
+    const batchId = req.body.batchId
+    queries.removePartFromBatch(user,partId,batchId)
+        .then(function(result){
+            res.send("removed part from batch")
         })
         .catch(function(e){
             res.send("something went wrong")
