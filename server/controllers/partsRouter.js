@@ -147,6 +147,7 @@ partsRouter.post("/getbatchcontent", isAuth, function(req,res){
             console.log(e)
         })
 })
+
 partsRouter.post("/insertbatch", isAuth, function(req,res){
     const user = req.session.userid
     const batchName = req.body.batchName

@@ -8,14 +8,14 @@ const { v4: uuidv4 } = require('uuid');
 
 auth.post("/signin", async function (req, res){
     const email = req.body.email
-    const passw = req.body.passw    
+    const passw = req.body.passw
+    const userType = req.body.userType
     const hashed = await argon.hash(passw)
     const newuid = uuidv4()
     console.log(email)
     console.log(passw)
     console.log(hashed)
-
-    queries.signIn(email, hashed, newuid)
+    queries.signIn(email, hashed, userType, newuid)
         .then(res.send("succesfully created user with email "+email))
         .catch(function(e){
             console.log("something went wrong")

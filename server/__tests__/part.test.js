@@ -26,7 +26,7 @@ beforeAll(function(done){
 })
 
 
-describe('part api test', function(){
+describe('api test', function(){
     test('signin', signInUser());
     test('login', loginUser());
     test('insert project', function(done){
@@ -151,6 +151,180 @@ describe('part api test', function(){
             .expect("deleted project")
             .expect(200,done)
     })
+    test("insert post", function(done){
+        server
+            .post("/api/machine/insertpost")
+            .send({"postobj":{       
+                "programNumber":"O0001",
+                "referencePoint":"G54",
+                "maxRevs": "G50 S4500",
+                "toolChangePosition": "G28 U0 W0",
+                "outsideRoughingTool": "T0101 (ROUHINTA)",
+                "outsideRoughingSpeed": "M3 G96 S200",
+                "facingFeed": "F0.2",
+                "roughingCycleFirstLine": "G72 U1 R0.2",
+                "roughingCycleSecondLine": "G72 P10 Q20 U0.5 W0.1 F0.3 S200",
+                "outsideFinishingTool":"T0202 (VIIMEISTELY)",
+                "outsideFinishingCycle":"G70 P10 Q20 F0.15 S200",
+                "insideRoughingTool":"T0303 (SISÃ„ROUHINTA",
+                "insideRoughingCycleFirstLine":"G72 U1 R0.2",
+                "insideRoughingCycleSecondline":"G72 P30 Q40 U0.5 W0.1 F0.3 S200",
+                "insideFinishingTool":"T0404 (SISÃ„VIIMEISTELY)",
+                "insideFinishingCycle":"G70 P30 Q40 F0.15 S200",
+                "cutOffTool":"T0505 (KATKASU)",
+                "cutOffSpeed":"M3 G96 S120",
+                "cutOffFeed":"F0.1",
+                "programEnd": "M30",
+                "postName": "test post"
+                }
+            })
+            .expect("post inserted")
+            .expect(200,done)
+    })
+    test("insert machine", function(done){
+        server 
+            .post("/api/machine/insertmachine")
+            .send({"machineobj":{
+                "machineName": "test machine",
+                "post": 1,
+                "minLength": 50,
+                "maxLength": 150,
+                "minOutsideDiameter": 45,
+                "maxOutsideDiameter": 70,
+                "minInsideDiameter": 10,
+                "maxInsideDiameter":37
+                }
+            })
+            .expect("inserted machine")
+            .expect(200,done)
+    })
+    test("update post", function(done){
+        server
+            .post("/api/machine/updatepost")
+            .send({"postobj":{       
+                "programNumber":"O0001",
+                "referencePoint":"G54",
+                "maxRevs": "G50 S4500",
+                "toolChangePosition": "G28 U0 W0",
+                "outsideRoughingTool": "T0101 (ROUHINTA)",
+                "outsideRoughingSpeed": "M3 G96 S200",
+                "facingFeed": "F0.2",
+                "roughingCycleFirstLine": "G72 U1 R0.2",
+                "roughingCycleSecondLine": "G72 P10 Q20 U0.5 W0.1 F0.3 S200",
+                "outsideFinishingTool":"T0202 (VIIMEISTELY)",
+                "outsideFinishingCycle":"G70 P10 Q20 F0.15 S200",
+                "insideRoughingTool":"T0303 (SISÃ„ROUHINTA",
+                "insideRoughingCycleFirstLine":"G72 U1 R0.2",
+                "insideRoughingCycleSecondline":"G72 P30 Q40 U0.5 W0.1 F0.3 S200",
+                "insideFinishingTool":"T0404 (SISÃ„VIIMEISTELY)",
+                "insideFinishingCycle":"G70 P30 Q40 F0.15 S200",
+                "cutOffTool":"T0505 (KATKASU)",
+                "cutOffSpeed":"M3 G96 S120",
+                "cutOffFeed":"F0.1",
+                "programEnd": "M30",
+                "postName": "updatedpost",
+                "postId" : 1
+                }
+            })
+            .expect("post updated")
+            .expect(200, done)
+    })
+    test("update machine", function(done){
+        server
+            .post("/api/machine/updatemachine")
+            .send({"machineobj":{
+                "machineId": 1,
+                "machineName": "updatedmachine",
+                "post": 1,
+                "minLength": 50,
+                "maxLength": 150,
+                "minOutsideDiameter": 45,
+                "maxOutsideDiameter": 70,
+                "minInsideDiameter": 10,
+                "maxInsideDiameter":37
+                }
+            })
+            .expect("machine updated")
+            .expect(200,done)
+    })
+    test("get all machines", function(done){
+        server
+            .post("/api/machine/getallmachines")
+            .send()
+            .expect(function(res){
+                res.body = res.body[0]
+            })
+            .expect({
+                "machineId": 1,
+                "userId": 1,
+                "machineName": "updatedmachine",
+                "post": 1,
+                "minLength": 50,
+                "maxLength": 150,
+                "minOutsideDiameter": 45,
+                "maxOutsideDiameter": 70,
+                "minInsideDiameter": 10,
+                "maxInsideDiameter":37
+            })
+            .expect(200,done)
+    })
+    test("get machine", function(done){
+        server
+            .post("/api/machine/getmachine")
+            .send({"machineId": 1})
+            .expect([{
+                "machineId": 1,
+                "machineName": "updatedmachine",
+                "post": 1,
+                "minLength": 50,
+                "maxLength": 150,
+                "minOutsideDiameter": 45,
+                "maxOutsideDiameter": 70,
+                "minInsideDiameter": 10,
+                "maxInsideDiameter":37
+            }])
+            .expect(200,done)
+    })
+    test("get post", function(done){
+        server
+            .post("/api/machine/getpost")
+            .send({"postId": 1})
+            .expect([{"postId":1,
+                "programNumber":"O0001",
+                "referencePoint":"G54",
+                "maxRevs":"G50 S4500",
+                "toolChangePosition":"G28 U0 W0",
+                "outsideRoughingTool":"T0101 (ROUHINTA)",
+                "outsideRoughingSpeed":"M3 G96 S200",
+                "facingFeed":"F0.2",
+                "roughingCycleFirstLine":"G72 U1 R0.2",
+                "roughingCycleSecondLine":"G72 P10 Q20 U0.5 W0.1 F0.3 S200",
+                "outsideFinishingTool":"T0202 (VIIMEISTELY)",
+                "outsideFinishingCycle":"G70 P10 Q20 F0.15 S200",
+                "insideRoughingTool":"T0303 (SISÃ„ROUHINTA",
+                "insideRoughingCycleFirstLine":"G72 U1 R0.2",
+                "insideRoughingCycleSecondline":"G72 P30 Q40 U0.5 W0.1 F0.3 S200",
+                "insideFinishingTool":"T0404 (SISÃ„VIIMEISTELY)",
+                "insideFinishingCycle":"G70 P30 Q40 F0.15 S200",
+                "cutOffTool":"T0505 (KATKASU)","cutOffSpeed":"M3 G96 S120",
+                "cutOffFeed":"F0.1","programEnd":"M30","postName":"updatedpost"
+            }])
+            .expect(200,done)
+        })
+    test("delete machine", function(done){
+        server
+            .post("/api/machine/deletemachine")
+            .send({"machineId": 1})
+            .expect("machine deleted")
+            .expect(200,done)
+    })
+    test("delete post", function(done){
+        server  
+            .post("/api/machine/deletepost")
+            .send({"postId": 1})
+            .expect("post deleted")
+            .expect(200,done)
+    })
     test("logout", function(done){
         server 
             .post('/auth/logout')
@@ -165,7 +339,7 @@ function signInUser() {
     return function(done){
         server
             .post('/auth/signin')
-            .send({"email": "testuser@hotmail.com", "passw": "testpassword"})
+            .send({"email": "testuser@hotmail.com", "passw": "testpassword", "userType": "client"})
             .expect("succesfully created user with email testuser@hotmail.com")
             .expect(200,done)
     }

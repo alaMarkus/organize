@@ -7,7 +7,7 @@ machineRouter.post("/insertmachine", isAuth, function(req,res){
     const machineobj = req.body.machineobj
     queries.insertMachine(user,machineobj)
         .then(function(result){
-            res.send("inserted machine succesfully")
+            res.send("inserted machine")
         })
         .catch(function(e){
             res.send("something went wrong")
@@ -54,6 +54,19 @@ machineRouter.post("/updatemachine",isAuth ,function(req,res){
             res.send("something went wrong")
         })
 })
+machineRouter.post("/deletemachine",isAuth ,function(req,res){
+    const user = req.session.userid
+    const machineId = req.body.machineId
+    queries.deleteMachine(user,machineId)
+        .then(function(result){
+            res.send("machine deleted")
+        })
+        .catch(function(e){
+            console.log("something went wrong")
+            console.log(e)
+            res.send("something went wrong")
+        })
+})
 
 machineRouter.post("/insertpost",isAuth ,function(req,res){
     const user = req.session.userid
@@ -89,6 +102,20 @@ machineRouter.post("/updatepost",isAuth ,function(req,res){
         queries.updatePost(user,postobj)
         .then(function(result){
             res.send("post updated")
+        })
+        .catch(function(e){
+            console.log("something went wrong")
+            console.log(e)
+            res.send("something went wrong")
+        })
+})
+
+machineRouter.post("/deletepost",isAuth ,function(req,res){
+    const user = req.session.userid
+    const postId = req.body.postId
+        queries.deletePost(user,postId)
+        .then(function(result){
+            res.send("post deleted")
         })
         .catch(function(e){
             console.log("something went wrong")

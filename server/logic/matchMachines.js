@@ -6,7 +6,10 @@ function validDimension(min, max, value){
     }
 }
 const findMachineForPart = (part, machines) =>{
+    let validMachines = []
+    console.log("machines: ")
     console.log(machines)
+    console.log("part: ")
     console.log(part[0])
     for (let i = 0; i<machines.length; i++){
             const machineId = machines[i].machineId
@@ -23,10 +26,11 @@ const findMachineForPart = (part, machines) =>{
                 validDimension(minOutsideDiameter,maxOutsideDiameter, part[0].outsideDiameter)&&
                 validDimension(minInsideDiameter,maxInsideDiameter,part[0].insideDiameter)){
                 console.log("machine: "+ machineId + " is valid for part: "+ part[0].partId)
+                validMachines.push(machineId)
             }else{
                 console.log("cant do")
             }
     }
-    return true;
+    return validMachines;
 }
 module.exports = findMachineForPart;

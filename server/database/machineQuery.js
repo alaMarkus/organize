@@ -1,7 +1,6 @@
-const db = require("mysql2")
 const {insertGet} = require('./dbConnetion')
 
-const insertMachine = (user,machineobj) => {
+exports.insertMachine = (user,machineobj) => {
     const sql =
         `INSERT INTO machine (
         userId,
@@ -28,7 +27,7 @@ const insertMachine = (user,machineobj) => {
     return insertGet(sql,values)
 }
 
-const getMachine = (user, machineId)=>{
+exports.getMachine = (user, machineId)=>{
     const sql = 
         `SELECT 
         machineId,
@@ -47,7 +46,7 @@ const getMachine = (user, machineId)=>{
     return insertGet(sql,args)
 }
 
-const updateMachine = (user, machineobj) => {
+exports.updateMachine = (user, machineobj) => {
     const sql =
         `UPDATE machine
         JOIN userdata ON machine.userId = userdata.userId
@@ -76,7 +75,7 @@ const updateMachine = (user, machineobj) => {
     return insertGet(sql,args)
 }
 
-const insertPost = (user, postobj) => {
+exports.insertPost = (user, postobj) => {
     const sql =
         `INSERT INTO postprocessor (
         userId,
@@ -130,7 +129,7 @@ const insertPost = (user, postobj) => {
     return insertGet(sql,args)   
 }
 
-const getPost = (user,postId) => {
+exports.getPost = (user,postId) => {
     const sql =
         `SELECT
         postId,
@@ -162,7 +161,7 @@ const getPost = (user,postId) => {
     return insertGet(sql,args)
 }
 
-const updatePost = (user,postobj) => {
+exports.updatePost = (user,postobj) => {
     const sql =
         `UPDATE postprocessor 
         JOIN userdata ON postprocessor.userId = userdata.userId
@@ -217,15 +216,21 @@ const updatePost = (user,postobj) => {
     return insertGet(sql,args)
 }
 
-const getAllMachines = () =>{
-    sql = "SELECT * FROM machine"
+exports.getAllMachines = () =>{
+    const sql = "SELECT * FROM machine"
     return insertGet(sql)
 }
 
-exports.getAllMachines = getAllMachines;
-exports.updatePost = updatePost;
-exports.getPost = getPost;
-exports.insertPost = insertPost;
-exports.updateMachine = updateMachine;
-exports.getMachine = getMachine;
-exports.insertMachine = insertMachine;
+exports.deleteMachine = (user, machineId) =>{
+    const sql = "DELETE machine FROM machine JOIN userdata ON machine.userId = userdata.userId WHERE machineId = ? AND secId = ?"
+    const args = [machineId, user]
+    return insertGet(sql,args)
+}
+exports.deletePost = (user,postId) => {
+    const sql = 
+        `DELETE postprocessor FROM postprocessor
+        JOIN userdata ON postprocessor.userId = userdata.userId
+        WHERE postId = ? AND secId = ?`
+    const args = [postId, user]
+    return insertGet(sql, args)
+}
