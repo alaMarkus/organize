@@ -1,0 +1,139 @@
+.post-editor{
+    width: 100%;
+    margin: auto;
+}
+
+.inputs-container form{
+    display: flex;
+    flex-direction: column;
+    width: 200pt;
+}
+
+.inputs-container input{
+    border: none;
+    background-color: antiquewhite;
+    float: left;
+}
+.inputs-container .submitpost{
+    background-color:gainsboro;
+}
+
+.inputs-container{
+    float: left;
+}
+.controls-container{
+    float: left;
+    margin-left: 20pt;
+}
+.buttons-container{
+    display: flex;
+    flex-direction: column;
+    width: 1000pt;
+    height: 700pt;
+    background-size: 500pt;
+    background-position: center;
+    background-image: url('./static/chuck4.png');
+    background-repeat:no-repeat;
+    position: relative;
+}
+
+.buttons-container img{
+    animation: fadeIn ease 0.7s;
+    -webkit-animation: fadeIn ease 0.7s;
+    -moz-animation: fadeIn ease 0.7s;
+    -o-animation: fadeIn ease 0.7s;
+    -ms-animation: fadeIn ease 0.7s;
+}
+@keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-moz-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-webkit-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-o-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-ms-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+.imgs-container img{
+    animation: fadeInAll ease 0.7s;
+    -webkit-animation: fadeInAll ease 0.7s;
+    -moz-animation: fadeInAll ease 0.7s;
+    -o-animation: fadeInAll ease 0.7s;
+    -ms-animation: fadeInAll ease 0.7s;
+}
+@keyframes fadeInAll {
+0% {opacity:0;}
+100% {opacity:0.3;}
+}
+
+@-moz-keyframes fadeInAll {
+0% {opacity:0;}
+100% {opacity:0.3;}
+}
+
+@-webkit-keyframes fadeInAll {
+0% {opacity:0;}
+100% {opacity:0.3;}
+}
+
+@-o-keyframes fadeInAll {
+0% {opacity:0;}
+100% {opacity:0.3;}
+}
+
+@-ms-keyframes fadeInAll {
+0% {opacity:0;}
+100% {opacity:0.3}
+}
+
+
+.outside-tool{
+    position: absolute;
+    left: 728pt;
+    top:39pt;
+}
+.outside-tool2{
+    position: absolute;
+    left: 775pt;
+    top:78pt;
+}
+.outside-tool3{
+    position: absolute;
+    left: 729pt;
+    top:118pt;
+}
+.cutting-tool{
+    position: absolute;
+    left:510pt;
+    top:24pt;
+}
+.cutting-tool2{
+    position: absolute;
+    left:510pt;
+    top:175pt;
+}
+.inside-tool{
+    position: absolute;
+    left: 777pt;
+    top:337pt;
+}
+.inside-tool2{
+    position: absolute;
+    left: 727pt;
+    top:314pt;
+}

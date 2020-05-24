@@ -76,22 +76,22 @@ exports.writeNcFile = (machineobj,postobj,partobj) =>{
 }
 
 function facingStartingPos(stockDiameterOutside){
-    const u = stockDiameterOutside + 2;
-	return "G0 X"+u+" Z0";
+    const u = stockDiameterOutside + 2; //facing APPROACH positioning from stock in x and z
+	return "G0 X"+u+" Z0";      // facing approach G-code
 }
 function facingCutDepth(stockDiameterInside){
-    const u = stockDiameterInside - 2;
-	return "G1 X"+u;
+    const u = stockDiameterInside - 2;  //facing cut depth in x direction
+	return "G1 X"+u;            //facing gut G-code
 }
 function facingEndPos(stockDiameterOutside){
-    const u = stockDiameterOutside;
-    const w = 2;
-	return "G0 X"+u+" Z"+w;
+    const u = stockDiameterOutside;     // facing RETRACT positioning after in x and z
+    const w = 2;                
+	return "G0 X"+u+" Z"+w;     //facing RETRACT G-code
 }
 function geometryStart(diameterOutside,outsideChamfer){
-    const u = diameterOutside - (outsideChamfer*2);
+    const u = diameterOutside - (outsideChamfer*2);  //geometry start APPROACH positioning
     const w = 0;
-	return "N10 G0 X"+u+"\r\n"+"G1 Z"+w;
+	return "N10 G0 X"+u+"\r\n"+"G1 Z"+w; //geometry start APPROACH G-code
 }
 function chamferEnd(diameterOutside,outsideChamfer){
     const u = diameterOutside;
