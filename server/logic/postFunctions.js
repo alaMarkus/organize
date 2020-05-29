@@ -1,14 +1,33 @@
 
-function facingStartingPos(stockDiameterOutside, facingApproachX){
+function facingStartingPositionX(stockDiameterOutside, facingApproachX){
     const u = stockDiameterOutside + facingApproachX;
-    return u;
+    return 
 }
 function facingCutDepth(stockDiameterInside, facingFinalDepth){
     const u  = stockDiameterInside + facingFinalDepth;
     return u;
 }
-function facingEndPosition(stockDiameterOutside, facingRetractX, facingRetractZ){
-    const u = 
+function facingEndPositionXZ(stockDiameterOutside, facingRetractX, facingRetractZ){
+    const u = stockDiameterOutside + facingRetractX
+    const w = facingRetractZ
+    return  " X"+u+" Z"+w; 
+}
+function geometryStart(diameterOutside,outSideChamfer,roughingApproachX){
+    const u = diameterOutside+(-outSideChamfer*2)
+    const w = roughingApproachX
+    return " X"+u+" Z"+w
+
+function chamferEnd(diameterOutside,outSideChamfer){
+    const u = diameterOutside
+    const w = (-outSideChamfer)
+    return " X"+u+" Z"+2
+}
+function cuttingLength(partLength, outSideChamfer){
+    const w = (-partLength)+outSideChamfer
+    return " Z"+w
+}
+function rearChamfer(diameterOutside,){
+
 }
 
 

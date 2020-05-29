@@ -3,4 +3,5 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-image: linear-gradient(to bottom, #111111, #3b3b3b, #777777, #b9b9b9, #ffffff);
+    color:white;
 }

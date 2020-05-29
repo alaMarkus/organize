@@ -29,8 +29,8 @@
     display: flex;
     flex-direction: column;
     width: 1000pt;
-    height: 700pt;
-    background-size: 500pt;
+    height: 800pt;
+    background-size: 900pt;
     background-position: center;
     background-image: url('./static/chuck4.png');
     background-repeat:no-repeat;
@@ -69,7 +69,7 @@
 100% {opacity:1;}
 }
 
-.imgs-container img{
+.buttons-container img{
     animation: fadeInAll ease 0.7s;
     -webkit-animation: fadeInAll ease 0.7s;
     -moz-animation: fadeInAll ease 0.7s;
@@ -115,7 +115,7 @@
 .outside-tool3{
     position: absolute;
     left: 729pt;
-    top:118pt;
+    top:173pt;
 }
 .cutting-tool{
     position: absolute;
@@ -136,4 +136,67 @@
     position: absolute;
     left: 727pt;
     top:314pt;
+}
+
+.buttons-container span{
+    height: 7pt;
+    width: 7pt;
+    background-color: rgb(35, 149, 45);
+    border-radius: 50%;
+    display: inline-block;
+    border: solid 1pt;
+    opacity: 0.3;
+}
+.buttons-container span:hover{
+    opacity: 1;
+}
+.chamferStart{
+    position: absolute;
+    top: 297pt;
+    left: 907pt;
+}
+.chamferStartTool{
+    position: absolute;
+    top: 131pt;
+    left: 911pt;
+}
+.chamferEnd{
+    position: absolute;
+    top: 287pt;
+    left: 898pt;
+}
+.chamferEndTool{
+    position: absolute;
+    top: 121pt;
+    left: 902pt;
+}
+.rearChamferStart{
+    position: absolute;
+    top: 287pt;
+    left: 539pt;
+}
+.rearChamferEnd{
+    position: absolute;
+    top: 297pt;
+    left: 530pt;
+}
+.geometryApproach{
+    position: absolute;
+    top: 297pt;
+    left: 935pt;
+}
+.facingStartingPosition{
+    position: absolute;
+    top: 230pt;
+    left: 907pt;
+}
+.facingCutDepth{
+    position: absolute;
+    top: 370pt;
+    left: 907pt;
+}
+.outsideRetract{
+    position: absolute;
+    top: 220pt;
+    left: 957pt;
 }

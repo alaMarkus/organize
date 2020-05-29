@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express');
+const cors = require('cors')
 const session = require('express-session')
 const matchRouter = require('./logic/matchRouter')
 const partsRouter = require("./controllers/partsRouter")
@@ -11,6 +12,14 @@ const app = express()
 const port = 8083;
 
 console.log(process.env.SECRET)
+
+const corsOptions = {
+    origin: "http://localhost:3000",
+    optionsSuccesStatus:200,
+    credentials: true
+}
+
+app.use(cors(corsOptions))
 
 app.listen(port, () => console.log("listening on port "+port))
 app.use(express.json())

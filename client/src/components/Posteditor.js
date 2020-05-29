@@ -8,7 +8,7 @@ const Posteditor = () =>{
     const [numberOfBoxes, addBox] = useState(10);
     const [line, setLine] = useState({});
     const [focused, holdFocused] = useState({});
-    const [showTool, setTool] = useState("all")
+    const [toolPos, setToolPos] = useState("none");
     const refs = []
 
     useEffect(()=>{
@@ -38,6 +38,7 @@ const Posteditor = () =>{
         console.log(inputNumber)
         console.log(inputValue)
     }
+
     const handleClick = (e) => {
         console.log("clicked")
         console.log(e.target)
@@ -83,9 +84,9 @@ const Posteditor = () =>{
     }
 
     const handleButtons = (e) =>{
-        console.log(e.target.name)
+        console.log(e.target.className)
         console.log(focused.name)
-        focused.value = focused.value + e.target.name
+        focused.value = focused.value + e.target.className
         focused.focus()
         const inputNumber = focused.name
         const inputValue = focused.value
@@ -93,90 +94,32 @@ const Posteditor = () =>{
         setLine(Object.assign({}, line, obj))
     }
 
-    const hovering = (e) =>{
-        console.log("hover")
-        console.log(e.target.alt)
-        setTool(e.target.alt)
+    const showTool = (e) =>{
+        console.log(e.target.className)
+        setToolPos(e.target.className)
     }
-    const exit = ()=>{
-        console.log("exit")
-        setTool("all")
-    }
-    const toolsClick = (e) =>{
-        setTool(e.target.name)
+    const hideTool = ()=>{
+        setToolPos("none")
     }
 
-    const Tools = (props)=>{
-        console.log(props.select)
-        const selectFunc = (asd)=>{
-            if (asd==="outsidetool"){
-                return <img  className="outside-tool" alt="outsidetool" src={outsidetool} width={60} onMouseEnter={hovering} onMouseLeave={exit}/>
-            }
-            if (asd==="outsidetool2"){
-                return <img  className="outside-tool2" alt="outsidetool2" src={outsidetool} width={60}onMouseEnter={hovering} onMouseLeave={exit}/>
-            }
-            if (asd==="outsidetool3"){
-                return <img  className="outside-tool3" alt="outsidetool3" src={outsidetool} width={60}onMouseEnter={hovering} onMouseLeave={exit}/>
-            }
-            if (asd==="cuttingtool"){
-                return <img  className="cutting-tool" alt="cuttingtool" src={cuttingtool} width={50} onMouseEnter={hovering} onMouseLeave={exit}/>
-            }
-            if(asd==="cuttingtool2"){
-                return <img  className="cutting-tool2" alt="cuttingtool2" src={cuttingtool} width={50}onMouseEnter={hovering} onMouseLeave={exit}/>
-            }
-            if (asd==="insidetool"){
-                return <img  className="inside-tool" alt="insidetool" src={insidetool} width={150}onMouseEnter={hovering} onMouseLeave={exit}/>
-            }
-            if (asd==="insidetool2"){
-                return <img  className="inside-tool2" alt="insidetool2" src={insidetool} width={150}onMouseEnter={hovering} onMouseLeave={exit}/>
-            }
-            
-            if (asd==='all'){
-                const style = {opacity:"0.3"}
-                return (
-                    <div className="imgs-container">
-                        <img style={style} className="outside-tool" alt="outsidetool" src={outsidetool} width={60}onMouseOver={hovering} onMouseLeave={exit}/>
-                        <img style={style} className="cutting-tool" alt="cuttingtool" src={cuttingtool} width={50}onMouseOver={hovering} onMouseLeave={exit}/>
-                        <img style={style} className="cutting-tool2" alt="cuttingtool2" src={cuttingtool} width={50}onMouseOver={hovering} onMouseLeave={exit}/>
-                        <img style={style} className="inside-tool" alt="insidetool" src={insidetool} width={150}onMouseOver={hovering} onMouseLeave={exit}/>
-                        <img style={style} className="inside-tool2" alt="insidetool2" src={insidetool} width={150}onMouseOver={hovering} onMouseLeave={exit}/>
-                        <img style={style} className="outside-tool2" alt="outsidetool2" src={outsidetool} width={60}onMouseOver={hovering} onMouseLeave={exit}/>
-                        <img style={style} className="outside-tool3" alt="outsidetool3" src={outsidetool} width={60}onMouseOver={hovering} onMouseLeave={exit}/>
-                    </div>
-                )
-            }
-            if (asd==='outside'){
-                const style = {opacity:"0.3"}
-                return (
-                    <div className="imgs-container">
-                        <img style={style} className="outside-tool" alt="outsidetool" src={outsidetool} width={60}onMouseOver={hovering} onMouseLeave={exit}/>
-                        <img style={style} className="outside-tool2" alt="outsidetool2" src={outsidetool} width={60}onMouseOver={hovering} onMouseLeave={exit}/>
-                        <img style={style} className="outside-tool3" alt="outsidetool3" src={outsidetool} width={60}onMouseOver={hovering} onMouseLeave={exit}/>
-                    </div>
-                )
-            }
-            if (asd==='inside'){
-                const style = {opacity:"0.3"}
-                return (
-                    <div className="imgs-container">
-                        <img style={style} className="inside-tool" alt="insidetool" src={insidetool} width={150}onMouseOver={hovering} onMouseLeave={exit}/>
-                        <img style={style} className="inside-tool2" alt="insidetool2" src={insidetool} width={150}onMouseOver={hovering} onMouseLeave={exit}/>
-                    </div>
-                )
-            }
-            if (asd==='cutting'){
-                const style = {opacity:"0.3"}
-                return (
-                    <div className="imgs-container">
-                        <img style={style} className="cutting-tool" alt="cuttingtool" src={cuttingtool} width={50}onMouseOver={hovering} onMouseLeave={exit}/>
-                        <img style={style} className="cutting-tool2" alt="cuttingtool2" src={cuttingtool} width={50}onMouseOver={hovering} onMouseLeave={exit}/>
-                    </div>
-                )
-            }
+    const Tool = (props) =>{
+        console.log(props.pos)
+        if (props.pos==="chamferStart"){
+            return (
+                <div>
+                    <img src={outsidetool} width={60} className={props.pos+"Tool"}/>
+                </div>
+            )
+        }
+        if (props.pos==="chamferEnd"){
+            return (
+                <div>
+                    <img src={outsidetool} width={60} className={props.pos+"Tool"}/>
+                </div>
+            )
         }
         return (
-            <div className = "buttons-container">
-                {selectFunc(props.select)}
+            <div>
             </div>
         )
     }
@@ -195,10 +138,17 @@ const Posteditor = () =>{
                 </form>
             </div>
                 <div className="controls-container">
-                    <button name="outside" onClick={toolsClick}>outside</button>
-                    <button name="inside" onClick={toolsClick}>inside</button>
-                    <button name ="cutting" onClick={toolsClick}>cutting</button>
-                    <Tools select={showTool}/>
+                    <div className ="buttons-container">
+                        <Tool pos={toolPos}/>
+                        <span title ="X(partOD-outsideChamfer) Z0" className="chamferStart" onClick={handleButtons} onMouseOver={showTool} onMouseLeave={hideTool}></span>
+                        <span title ="X(partOD) Z(-outsideChamfer)" className="chamferEnd" onClick={handleButtons} onMouseOver={showTool} onMouseLeave={hideTool}></span>
+                        <span title ="X(partOD) Z(-partLength+rearChamfer)" className="rearChamferStart" onClick={handleButtons} onMouseOver={showTool} onMouseLeave={hideTool}></span>
+                        <span title ="X(partOD-rearChamfer) Z(-partLength)" className="rearChamferEnd" onClick={handleButtons} onMouseOver={showTool} onMouseLeave={hideTool}></span>
+                        <span title ="X(stock OD-OutsideChamfer) Z (geomteryApproachZ)" className="geometryApproach" onClick={handleButtons} onMouseOver={showTool} onMouseLeave={hideTool}></span>
+                        <span title ="X(stock OD + facingApproachX) Z0" className="facingStartingPosition" onClick={handleButtons} onMouseOver={showTool} onMouseLeave={hideTool}></span>
+                        <span title ="X(stock ID + facingFinalDepth) Z0" className="facingCutDepth" onClick={handleButtons} onMouseOver={showTool} onMouseLeave={hideTool}></span>
+                        <span title ="X(stock OD + outsideRetractZ) Z(outsideRetractZ)" className="outsideRetract" onClick={handleButtons} onMouseOver={showTool} onMouseLeave={hideTool}></span>
+                    </div>
                 </div>
             </div>
     )
