@@ -15,7 +15,7 @@ const PartsMenu = (props) => {
                 console.log(result.data)
                 setPartList(result.data)
             })
-    },[props.projectId])
+    },[props.projectId, props.partInserted])
 
 
     return (

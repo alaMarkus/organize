@@ -2,9 +2,12 @@ import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import {apiUrl} from '../config/config'
 import {MenuItem, Button} from '@material-ui/core'
+import './newpart.css'
 
 const NewPart = (props) => {
-    const [partObj, setPartObj] = useState({"projectId": props.projectId})
+    const [partObj, setPartObj] = useState({"projectId": props.projectId, "outsideChamferType": "chamfer", "insideChamferType": "chamfer"})
+    const [outsideRadio, setOutsideRadio] = useState("chamfer")
+    const [insideRadio, setInsideRadio] = useState("chamfer")
 
     const handleSubmit = (e) =>{
         e.preventDefault();
@@ -12,6 +15,7 @@ const NewPart = (props) => {
             .post(apiUrl+"/api/part/insertpart", {"partobj":partObj})
             .then(function(result){
                 console.log(result)
+                props.updatePartList(partObj)
             })
         console.log(partObj)
     }
@@ -24,21 +28,26 @@ const NewPart = (props) => {
     }
 
     return (
-        <div>
+        <div className="new-part-container">
             <form onSubmit={handleSubmit}>
-                <input name="partName" onChange={handleChange} placeholder="part name"/>
-                <input name="outsideDiameter" onChange={handleChange}  placeholder="outside d"/>
-                <input name="insideDiameter" onChange={handleChange}  placeholder="inside d"/>
-                <input name="partLength" onChange={handleChange}  placeholder="part length"/>
+                <input className ="part-name" name="partName" onChange={handleChange} required autocomplete="off" placeholder="part name"/>
+                <input className = "outside-diameter" name="outsideDiameter" onChange={handleChange}  required autocomplete="off" placeholder="outside diameter"/>
+                <input className = "inside-diameter" name="insideDiameter" onChange={handleChange}  required autocomplete="off" placeholder="inside diameter"/>
+                <input className ="part-length" name="partLength" onChange={handleChange}  required autocomplete="off" placeholder="part length"/>
 
-                <input name="outsideChamfer" onChange={handleChange}  placeholder="outside c"/>
-                <input name="outsideChamferType" type="radio" value="chamfer" onChange={handleChange}/><label>chamfer</label>
-                <input name="outSideChamferType" type="radio" value="radius"  onChange={handleChange}/><label>radius</label>
+                <input className = "outside-chamfer" name="outsideChamfer" onChange={handleChange}  required autocomplete="off" placeholder="outside chamfer"/>
+                <div className="outside-radio-container">
+                    <input  name="outsideChamferType" type="radio" value="chamfer" onChange={handleChange} checked={partObj.outsideChamferType==="chamfer"}/><label>chamfer</label>
+                    <input  name="outsideChamferType" type="radio" value="radius"  onChange={handleChange}/><label>radius</label>
+                </div>
 
-                <input name="insideChamfer" onChange={handleChange}  placeholder="inside c"/>
-                <input name="insideChamferType" type="radio" value="chamfer" onChange={handleChange}/><label>chamfer</label>
-                <input name="insideChamferType" type="radio" value="radius"  onChange={handleChange}/><label>radius</label>
-                <input type="submit"/>
+                <input className="inside-chamfer" name="insideChamfer" onChange={handleChange}  required autocomplete="off" placeholder="inside chamfer"/>
+                <div className="inside-radio-container">
+                    <input  name="insideChamferType" type="radio" value="chamfer" onChange={handleChange} checked={partObj.insideChamferType==="chamfer"}/><label>chamfer</label>
+                    <input  name="insideChamferType" type="radio" value="radius"  onChange={handleChange}/><label>radius</label>
+                </div>
+
+                <Button variant="contained" color="primary" className="submit-button">Submit</Button>
             </form>
         </div>
     )

@@ -13,7 +13,7 @@ const ProjectsMenu = (props)=> {
             console.log(result.data)
             setProjectList(result.data)
         })
-    },[])
+    },[props.inserted])
 
     return (
         <div className="projects-list">

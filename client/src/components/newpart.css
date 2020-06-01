@@ -1,0 +1,59 @@
+.new-part-container{
+    background-image: url('./static/newpart.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 90%;
+    width: 100%;
+    height: 100%;
+}
+
+.new-part-container input{
+    padding: 5pt;
+}
+.submit-button{
+    position: absolute;
+    top:650px;
+    left: 600px;
+}
+.part-name{
+    width: 200px;
+    position: absolute;
+    top:50px;
+    left: 340px;
+}
+.outside-diameter{
+    position: absolute;
+    top: 400px;
+    left: 783px;
+}
+.inside-diameter{
+    position: absolute;
+    top: 400px;
+    left: 30px;
+}
+.part-length{
+    position: absolute;
+    top: 159px;
+    left: 365px;
+}
+.inside-chamfer{
+    position:absolute;
+    top: 440px;
+    left: 676px;
+}
+.outside-chamfer{
+    position: absolute;
+    top: 555px;
+    left: 8px;
+}
+
+.inside-radio-container{
+    position:absolute;
+    top: 481px;
+    left: 690px;
+}
+.outside-radio-container{
+    position: absolute;
+    top: 594px;
+    left: 20px;
+}

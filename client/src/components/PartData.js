@@ -3,6 +3,8 @@ import axios from 'axios'
 import {apiUrl} from '../config/config'
 import {MenuItem} from '@material-ui/core'
 
+import './partdata.css'
+
 const PartData = (props)=>{
     const [partData, setPartData] = useState([])
 
@@ -16,13 +18,39 @@ const PartData = (props)=>{
     },[props.partId])
 
     return (
-        <div>
-            {partData.map(e=>{
-                return (
-                    <div>{e.partName}</div>
-                )
-            })}
-        </div>
+        partData.map(e=>{
+            return (
+                <div className="part-data">
+                    <h3 className="part-header">{e.partName}</h3>
+                    <table>
+                        <tr>
+                            <th>Outside diameter: </th>
+                            <td>{e.outsideDiameter}</td>
+                        </tr>
+                        <tr>
+                            <th>Inside diameter</th>
+                            <td>{e.insideDiameter}</td>
+                        </tr>
+                        <tr>
+                            <th>Length</th>
+                            <td>{e.bushingLength}</td>
+                        </tr>
+                        <tr>
+                            <th>Outside chamfer</th>
+                            <td>{e.outsideChamfer}</td>
+                            <th>type</th>
+                            <td>{e.outsideChamferType}</td>
+                        </tr>
+                        <tr>
+                            <th>inside Chamfer</th>
+                            <td>{e.insideChamfer}</td>
+                            <th>type</th>
+                            <td>{e.insideChamferType}</td>
+                        </tr>
+                    </table>
+                </div>
+            )
+        })
     )
 }
 

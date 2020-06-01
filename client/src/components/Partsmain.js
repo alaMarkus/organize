@@ -7,7 +7,6 @@ import'./partsmain.css'
 import ProjectsMenu from './ProjectsMenu'
 import PartsMenu from './PartsMenu'
 import PartData from './PartData'
-import newPart from './NewPart'
 import NewPart from './NewPart';
 
 const PartsMain = () => {
@@ -15,6 +14,8 @@ const PartsMain = () => {
     const [selectedPart, setSelectedPart] = useState(1)
     const [addOrShow, setAddOrShow] = useState("show") 
     const [newProjectName, setNewProjectName] = useState("")
+    const [inserted, setInserted] = useState("")
+    const [partInserted, setPartInserted] = useState("")
 
     const clickedProject =(e) =>{
         console.log(e.target.id)
@@ -40,11 +41,12 @@ const PartsMain = () => {
         axios
             .post(apiUrl+"/api/part/insertproject", {"projectName":newProjectName})
             .then(function(result){
-                console.log(result)
+                console.log(result.data)
+                setInserted(result.data)
             })
     }
 
-    function selectAddOrShow(){
+    const SelectAddOrShow = () =>{
         if (addOrShow==="show"){
             return (
                 <PartData partId={selectedPart}/>
@@ -52,26 +54,32 @@ const PartsMain = () => {
         }
         if (addOrShow==="add"){
             return (
-                <NewPart projectId={selectedProject}/>
+                <NewPart updatePartList={updatePartList} projectId={selectedProject}/>
             )
         }
+    }
+
+    const updatePartList = (data) =>{
+        console.log("updatepartlist called")
+        console.log(data)
+        setPartInserted(data)
     }
 
     return (
         <div className="parts-main-container">
             <div className="menus-container">
                 <div className="projects-menu-container">
-                    <ProjectsMenu clickedProject={clickedProject}/>
+                    <ProjectsMenu inserted = {inserted} clickedProject={clickedProject}/>
                     <input onChange={handleInput} className="new-project-input" placeholder="project name"/>
                     <Button onClick={addProject} variant ="contained" color="primary" fullWidth="true">Add</Button>
                 </div>
                 <div className="parts-menu-container">
-                    <PartsMenu projectId={selectedProject} clickedPart={clickedPart} />
+                    <PartsMenu partInserted={partInserted} projectId={selectedProject} clickedPart={clickedPart} />
                     <Button onClick={newPart} size="small" variant="contained" color="primary" className ="new-part-button">New Part</Button>
                 </div>
             </div>
             <div className="parts-data-container">
-                {selectAddOrShow()}
+                <SelectAddOrShow />
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
 .parts-main-container{
     display: inline-block;
     border: 1px solid;
-    height: 400pt;
+    height: 600pt;
     width: 100%;
 }
 
@@ -18,7 +18,7 @@
     float: left;
     height: auto;
     border: 1px solid;
-    width: 100pt;
+    width: 150pt;
     margin:5pt;
 }
 
@@ -26,14 +26,15 @@
     float: left;
     height: auto;
     border: 1px solid;
-    width: 100pt;
+    width: 150pt;
     margin:5pt;
 }
 .parts-data-container{
+    position: relative;
     float:left;
     border: 1px solid;
     height: 95%;
-    width: 220pt;
+    width: 700pt;
     margin: 5pt;
 }
 
