@@ -1,1 +1,43 @@
+.parts-main-container{
+    display: inline-block;
+    border: 1px solid;
+    height: 400pt;
+    width: 100%;
+}
 
+.menus-container{
+    display: inline-block;
+    float: left;
+    border: 1px solid;
+    height: 95%;
+    margin: 5pt;
+    width: auto;
+}
+
+.projects-menu-container{
+    float: left;
+    height: auto;
+    border: 1px solid;
+    width: 100pt;
+    margin:5pt;
+}
+
+.parts-menu-container{
+    float: left;
+    height: auto;
+    border: 1px solid;
+    width: 100pt;
+    margin:5pt;
+}
+.parts-data-container{
+    float:left;
+    border: 1px solid;
+    height: 95%;
+    width: 220pt;
+    margin: 5pt;
+}
+
+.App{
+    margin-left: 50pt;
+    margin-right: 50pt;
+}

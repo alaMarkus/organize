@@ -1,7 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import './App.css';
-import Posteditor from './components/Posteditor';
-import ProjectMenu from './components/ProjectsMenu'
+import Partsmain from './components/Partsmain'
 import axios from 'axios'
 import {apiUrl} from './config/config'
 axios.defaults.withCredentials = true
@@ -21,7 +20,7 @@ function App() {
   
   const ShowMenu = ()=>{
     if (loggedIn ==="welcome in"){
-      return <div><ProjectMenu/></div>
+      return <div><Partsmain/></div>
     }
     else{
       return <div></div>
