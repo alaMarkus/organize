@@ -11,6 +11,7 @@ const PartsMenu = (props) => {
     const [partList, setPartList] = useState([])
     const [addOrShow, setAddOrShow] = useState("show")
     const [selectedPart, setSelectedPart] = useState(1)
+    const [inserted, setInserted] = useState({})
 
     useEffect(()=>{
         axios
@@ -19,7 +20,7 @@ const PartsMenu = (props) => {
                 console.log(result.data)
                 setPartList(result.data)
             })
-    },[props.projectId, props.partInserted])
+    },[props.projectId,inserted])
 
     const clickedPart = (e) =>{
         console.log(e.target.id)
@@ -31,6 +32,10 @@ const PartsMenu = (props) => {
         setAddOrShow("add")
     }
 
+    const updatePartList = (data) =>{
+        setInserted(data)
+    }
+
     const SelectAddOrShow = () =>{
         if (addOrShow==="show"){
             return (
@@ -39,7 +44,7 @@ const PartsMenu = (props) => {
         }
         if (addOrShow==="add"){
             return (
-                <NewPart projectId={props.projectId}/>
+                <NewPart projectId={props.projectId} updatePartList={updatePartList}/>
             )
         }
     }
