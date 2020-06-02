@@ -31,9 +31,9 @@ const NewPart = (props) => {
         <div className="new-part-container">
             <form onSubmit={handleSubmit}>
                 <input className ="part-name" name="partName" onChange={handleChange} required autocomplete="off" placeholder="part name"/>
+                <input className ="part-length" name="partLength" onChange={handleChange}  required autocomplete="off" placeholder="part length"/>
                 <input className = "outside-diameter" name="outsideDiameter" onChange={handleChange}  required autocomplete="off" placeholder="outside diameter"/>
                 <input className = "inside-diameter" name="insideDiameter" onChange={handleChange}  required autocomplete="off" placeholder="inside diameter"/>
-                <input className ="part-length" name="partLength" onChange={handleChange}  required autocomplete="off" placeholder="part length"/>
 
                 <input className = "outside-chamfer" name="outsideChamfer" onChange={handleChange}  required autocomplete="off" placeholder="outside chamfer"/>
                 <div className="outside-radio-container">
@@ -47,7 +47,7 @@ const NewPart = (props) => {
                     <input  name="insideChamferType" type="radio" value="radius"  onChange={handleChange}/><label>radius</label>
                 </div>
 
-                <Button variant="contained" color="primary" className="submit-button">Submit</Button>
+                <Button variant="contained" color="primary" className="submit-button" type="submit">Submit</Button>
             </form>
         </div>
     )

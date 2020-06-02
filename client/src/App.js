@@ -1,8 +1,11 @@
 import React,{useEffect, useState} from 'react';
 import './App.css';
-import Partsmain from './components/Partsmain'
 import axios from 'axios'
 import {apiUrl} from './config/config'
+
+import Partsmain from './components/Partsmain'
+import NavBar from './components/NavBar'
+
 axios.defaults.withCredentials = true
 
 function App() {
@@ -18,7 +21,7 @@ function App() {
       })
   },[])
   
-  const ShowMenu = ()=>{
+  const ShowPartsmain = ()=>{
     if (loggedIn ==="welcome in"){
       return <div><Partsmain/></div>
     }
@@ -29,7 +32,8 @@ function App() {
 
   return (
     <div className="App">
-      {ShowMenu()}
+      <NavBar />
+      {ShowPartsmain()}
     </div>
   );
 }

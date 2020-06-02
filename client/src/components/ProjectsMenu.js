@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import {apiUrl} from '../config/config'
 import {MenuItem} from '@material-ui/core'
+import { red } from '@material-ui/core/colors';
 
 const ProjectsMenu = (props)=> {
     const [projectsList, setProjectList] = useState([])
@@ -15,11 +16,18 @@ const ProjectsMenu = (props)=> {
         })
     },[props.inserted])
 
+    
+
     return (
         <div className="projects-list">
+            <div className="projects-header-container">
+                <h5>Projects</h5>
+            </div>
             {projectsList.map(e=>{
+                console.log("selected: "+props.selectedProject)
+                console.log("current:"+e.projectId)
                 return (
-                    <MenuItem key={e.projectId} id={e.projectId} onClick={props.clickedProject} children={e.projectName}/>
+                    <MenuItem selected={props.selectedProject==e.projectId} key={e.projectId} id={e.projectId} onClick={props.clickedProject} children={e.projectName}/>
                 )
             })}
         </div>

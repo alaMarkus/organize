@@ -19,10 +19,13 @@ const PartsMenu = (props) => {
 
 
     return (
-        <div>
+        <div className="parts-list">
+            <div className="parts-header-container">
+                <h5>Parts</h5>
+            </div>
             {partList.map(e=>{
                 return (
-                    <MenuItem key={e.partId} id={e.partId} onClick={props.clickedPart} children={e.partName} />
+                    <MenuItem selected={props.selectedPart==e.partId} key={e.partId} id={e.partId} onClick={props.clickedPart} children={e.partName} />
                 )
             })}
         </div>

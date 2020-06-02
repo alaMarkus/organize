@@ -20,33 +20,35 @@ const PartData = (props)=>{
     return (
         partData.map(e=>{
             return (
-                <div className="part-data">
+                <div key={e.partId} className="part-data">
                     <h3 className="part-header">{e.partName}</h3>
                     <table>
-                        <tr>
-                            <th>Outside diameter: </th>
-                            <td>{e.outsideDiameter}</td>
-                        </tr>
-                        <tr>
-                            <th>Inside diameter</th>
-                            <td>{e.insideDiameter}</td>
-                        </tr>
-                        <tr>
-                            <th>Length</th>
-                            <td>{e.bushingLength}</td>
-                        </tr>
-                        <tr>
-                            <th>Outside chamfer</th>
-                            <td>{e.outsideChamfer}</td>
-                            <th>type</th>
-                            <td>{e.outsideChamferType}</td>
-                        </tr>
-                        <tr>
-                            <th>inside Chamfer</th>
-                            <td>{e.insideChamfer}</td>
-                            <th>type</th>
-                            <td>{e.insideChamferType}</td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <th>Outside diameter: </th>
+                                <td>{e.outsideDiameter}</td>
+                            </tr>
+                            <tr>
+                                <th>Inside diameter</th>
+                                <td>{e.insideDiameter}</td>
+                            </tr>
+                            <tr>
+                                <th>Length</th>
+                                <td>{e.bushingLength}</td>
+                            </tr>
+                            <tr>
+                                <th>Outside chamfer</th>
+                                <td>{e.outsideChamfer}</td>
+                                <th>type</th>
+                                <td>{e.outsideChamferType}</td>
+                            </tr>
+                            <tr>
+                                <th>inside Chamfer</th>
+                                <td>{e.insideChamfer}</td>
+                                <th>type</th>
+                                <td>{e.insideChamferType}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             )

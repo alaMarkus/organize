@@ -69,12 +69,12 @@ const PartsMain = () => {
         <div className="parts-main-container">
             <div className="menus-container">
                 <div className="projects-menu-container">
-                    <ProjectsMenu inserted = {inserted} clickedProject={clickedProject}/>
+                    <ProjectsMenu inserted = {inserted} clickedProject={clickedProject} selectedProject={selectedProject}/>
                     <input onChange={handleInput} className="new-project-input" placeholder="project name"/>
                     <Button onClick={addProject} variant ="contained" color="primary" fullWidth="true">Add</Button>
                 </div>
                 <div className="parts-menu-container">
-                    <PartsMenu partInserted={partInserted} projectId={selectedProject} clickedPart={clickedPart} />
+                    <PartsMenu selectedPart={selectedPart} partInserted={partInserted} projectId={selectedProject} clickedPart={clickedPart} />
                     <Button onClick={newPart} size="small" variant="contained" color="primary" className ="new-part-button">New Part</Button>
                 </div>
             </div>
