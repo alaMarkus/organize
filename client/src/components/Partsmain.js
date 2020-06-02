@@ -16,17 +16,7 @@ const PartsMain = () => {
     const [newProjectName, setNewProjectName] = useState("")
     const [inserted, setInserted] = useState("")
     const [partInserted, setPartInserted] = useState("")
-
-    const clickedProject =(e) =>{
-        console.log(e.target.id)
-        setSelectedProject(e.target.id)
-    }
     
-    const clickedPart = (e) =>{
-        console.log(e.target.id)
-        setSelectedPart(e.target.id)
-        setAddOrShow("show")
-    }
 
     const newPart = () =>{
         setAddOrShow("add")
@@ -67,20 +57,7 @@ const PartsMain = () => {
 
     return (
         <div className="parts-main-container">
-            <div className="menus-container">
-                <div className="projects-menu-container">
-                    <ProjectsMenu inserted = {inserted} clickedProject={clickedProject} selectedProject={selectedProject}/>
-                    <input onChange={handleInput} className="new-project-input" placeholder="project name"/>
-                    <Button onClick={addProject} variant ="contained" color="primary" fullWidth={true}>Add</Button>
-                </div>
-                <div className="parts-menu-container">
-                    <PartsMenu selectedPart={selectedPart} partInserted={partInserted} projectId={selectedProject} clickedPart={clickedPart} />
-                    <Button onClick={newPart} size="small" variant="contained" color="primary" className ="new-part-button">New Part</Button>
-                </div>
-            </div>
-            <div className="parts-data-container">
-                <SelectAddOrShow />
-            </div>
+            <ProjectsMenu />
         </div>
     )
 }

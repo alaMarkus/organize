@@ -6,8 +6,6 @@
 }
 
 .menus-container{
-    display: inline-block;
-    float: left;
     border: 1px solid;
     height: 95%;
     margin: 5pt;
@@ -15,13 +13,18 @@
 }
 
 .projects-menu-container{
-    display: block;
-    float: left;
+    display: flex;
+    flex-direction: row;
     height: auto;
     border: 1px solid;
-    width: 150pt;
+    width: auto;
     margin:5pt;
 }
+.projects-list{
+    width: 200pt;
+    border: 1px solid;
+}
+
 .projects-list h5{
     margin: 0;
     padding-top: 10pt;
@@ -34,13 +37,19 @@
 }
 
 
-
+.parts-container{
+    display: flex;
+    flex-direction: row;
+}
 .parts-menu-container{
     float: left;
     height: auto;
+    width: auto;
     border: 1px solid;
-    width: 150pt;
-    margin:5pt;
+}
+
+.parts-list{
+    width: 200pt;
 }
 .parts-list h5{
     margin: 0;
@@ -60,6 +69,9 @@
     height: 95%;
     width: 700pt;
     margin: 5pt;
+}
+.part-data{
+    border: 1px solid;
 }
 
 .App{

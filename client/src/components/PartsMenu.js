@@ -4,9 +4,13 @@ import {apiUrl} from '../config/config'
 import {MenuItem} from '@material-ui/core'
 import './partsmenu.css'
 
+import PartData from './PartData'
+
 
 const PartsMenu = (props) => {
     const [partList, setPartList] = useState([])
+    const [addOrShow, setAddOrShow] = useState("show")
+    const [selectedPart, setSelectedPart] = useState(1)
 
     useEffect(()=>{
         axios
@@ -17,17 +21,29 @@ const PartsMenu = (props) => {
             })
     },[props.projectId, props.partInserted])
 
+    const clickedPart = (e) =>{
+        console.log(e.target.id)
+        setSelectedPart(e.target.id)
+        setAddOrShow("show")
+    }
 
     return (
-        <div className="parts-list">
-            <div className="parts-header-container">
-                <h5>Parts</h5>
+        <div className="parts-container">
+            <div className="parts-menu-container">
+                <div className="parts-list">
+                    <div className="parts-header-container">
+                        <h5>Parts</h5>
+                    </div>
+                    {partList.map(e=>{
+                        return (
+                            <MenuItem key={e.partId} id={e.partId} onClick={clickedPart} children={e.partName} />
+                        )
+                    })}
+                </div>
             </div>
-            {partList.map(e=>{
-                return (
-                    <MenuItem selected={props.selectedPart==e.partId} key={e.partId} id={e.partId} onClick={props.clickedPart} children={e.partName} />
-                )
-            })}
+            <div className = "part-data-container">
+                    <PartData partId={selectedPart}/>
+            </div>
         </div>
     )
 }
