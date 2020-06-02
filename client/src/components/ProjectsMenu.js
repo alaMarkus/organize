@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import {apiUrl} from '../config/config'
 import {MenuItem} from '@material-ui/core'
-import { red } from '@material-ui/core/colors';
 
 const ProjectsMenu = (props)=> {
     const [projectsList, setProjectList] = useState([])

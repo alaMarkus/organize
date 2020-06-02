@@ -1,7 +1,7 @@
-import React, {useState,useEffect} from 'react'
+import React, {useState} from 'react'
 import axios from 'axios'
 import {apiUrl} from '../config/config'
-import {MenuItem, Button} from '@material-ui/core'
+import {Button} from '@material-ui/core'
 import'./partsmain.css'
 
 import ProjectsMenu from './ProjectsMenu'
@@ -71,7 +71,7 @@ const PartsMain = () => {
                 <div className="projects-menu-container">
                     <ProjectsMenu inserted = {inserted} clickedProject={clickedProject} selectedProject={selectedProject}/>
                     <input onChange={handleInput} className="new-project-input" placeholder="project name"/>
-                    <Button onClick={addProject} variant ="contained" color="primary" fullWidth="true">Add</Button>
+                    <Button onClick={addProject} variant ="contained" color="primary" fullWidth={true}>Add</Button>
                 </div>
                 <div className="parts-menu-container">
                     <PartsMenu selectedPart={selectedPart} partInserted={partInserted} projectId={selectedProject} clickedPart={clickedPart} />
