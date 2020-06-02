@@ -5,7 +5,7 @@ import {MenuItem, Button} from '@material-ui/core'
 import './partsmenu.css'
 
 import PartData from './PartData'
-
+import NewPart from './NewPart'
 
 const PartsMenu = (props) => {
     const [partList, setPartList] = useState([])
@@ -31,6 +31,19 @@ const PartsMenu = (props) => {
         setAddOrShow("add")
     }
 
+    const SelectAddOrShow = () =>{
+        if (addOrShow==="show"){
+            return (
+                <PartData partId={selectedPart}/>
+                )
+        }
+        if (addOrShow==="add"){
+            return (
+                <NewPart projectId={props.projectId}/>
+            )
+        }
+    }
+
     return (
         <div className="parts-container">
             <div className="parts-menu-container">
@@ -46,8 +59,8 @@ const PartsMenu = (props) => {
                     <Button onClick={newPart} size="small" variant="contained" color="primary" className ="new-part-button">New Part</Button>
                 </div>
             </div>
-            <div className = "part-data-container">
-                    <PartData partId={selectedPart}/>
+            <div className = "parts-data-container">
+                    <SelectAddOrShow />
             </div>
         </div>
     )

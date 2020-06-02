@@ -2,6 +2,7 @@ import React,{useEffect, useState} from 'react';
 import './App.css';
 import axios from 'axios'
 import {apiUrl} from './config/config'
+import {BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom'
 
 import Partsmain from './components/Partsmain'
 import NavBar from './components/NavBar'
@@ -32,8 +33,14 @@ function App() {
 
   return (
     <div className="App">
-      <NavBar />
-      {ShowPartsmain()}
+      <Router>
+        <Route path="/">
+          <NavBar/>
+        </Route>
+        <Route path="/projects">
+          <Partsmain/>
+        </Route>
+      </Router>
     </div>
   );
 }

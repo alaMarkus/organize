@@ -9,6 +9,7 @@ const ProjectsMenu = (props)=> {
     const [projectsList, setProjectList] = useState([])
     const [selectedProject, setSelectedProject] = useState(1)
     const [newProjectName, setNewProjectName] = useState("")
+    const [inserted, setInserted] = useState("")
 
     useEffect(()=>{
         axios
@@ -17,11 +18,16 @@ const ProjectsMenu = (props)=> {
             console.log(result.data)
             setProjectList(result.data)
         })
-    },[])
+    },[inserted])
 
     const clickedProject =(e) =>{
         console.log(e.target.id)
         setSelectedProject(e.target.id)
+    }
+
+    const handleInput = (e) =>{
+        setNewProjectName(e.target.value)
+        console.log(newProjectName)
     }
 
     const addProject = () =>{
@@ -29,7 +35,7 @@ const ProjectsMenu = (props)=> {
             .post(apiUrl+"/api/part/insertproject", {"projectName":newProjectName})
             .then(function(result){
                 console.log(result.data)
-                //setInserted(result.data)
+                setInserted(result.data)
             })
     }
 
@@ -48,6 +54,7 @@ const ProjectsMenu = (props)=> {
                                 <MenuItem selected={props.selectedProject==e.projectId} key={e.projectId} id={e.projectId} onClick={clickedProject} children={e.projectName}/>
                             )
                         })}
+                         <input onChange={handleInput} className="new-project-input" placeholder="project name"/>
                         <Button onClick={addProject} variant ="contained" color="primary" fullWidth={true}>Add</Button>
                     </div>
                     <div>
