@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import {apiUrl} from '../config/config'
-import {MenuItem} from '@material-ui/core'
+import {MenuItem, Button} from '@material-ui/core'
 
 import PartsMenu from './PartsMenu'
 
@@ -23,6 +23,15 @@ const ProjectsMenu = (props)=> {
         setSelectedProject(e.target.id)
     }
 
+    const addProject = () =>{/*
+        axios
+            .post(apiUrl+"/api/part/insertproject", {"projectName":newProjectName})
+            .then(function(result){
+                console.log(result.data)
+                setInserted(result.data)
+            })*/
+    }
+
     return (
         <div className="project-container" >
             <div className="menus-container">
@@ -38,6 +47,7 @@ const ProjectsMenu = (props)=> {
                                 <MenuItem selected={props.selectedProject==e.projectId} key={e.projectId} id={e.projectId} onClick={clickedProject} children={e.projectName}/>
                             )
                         })}
+                        <Button onClick={addProject} variant ="contained" color="primary" fullWidth={true}>Add</Button>
                     </div>
                     <div>
                         <PartsMenu projectId={selectedProject}/>
