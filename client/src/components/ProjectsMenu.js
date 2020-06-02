@@ -8,6 +8,7 @@ import PartsMenu from './PartsMenu'
 const ProjectsMenu = (props)=> {
     const [projectsList, setProjectList] = useState([])
     const [selectedProject, setSelectedProject] = useState(1)
+    const [newProjectName, setNewProjectName] = useState("")
 
     useEffect(()=>{
         axios
@@ -23,13 +24,13 @@ const ProjectsMenu = (props)=> {
         setSelectedProject(e.target.id)
     }
 
-    const addProject = () =>{/*
+    const addProject = () =>{
         axios
             .post(apiUrl+"/api/part/insertproject", {"projectName":newProjectName})
             .then(function(result){
                 console.log(result.data)
-                setInserted(result.data)
-            })*/
+                //setInserted(result.data)
+            })
     }
 
     return (
