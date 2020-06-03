@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import {apiUrl} from '../config/config'
 import {MenuItem, Button} from '@material-ui/core'
+import './projectsmenu.css'
 
 import PartsMenu from './PartsMenu'
 
@@ -36,8 +37,10 @@ const ProjectsMenu = (props)=> {
             .then(function(result){
                 console.log(result.data)
                 setInserted(result.data)
+                setNewProjectName("")
             })
     }
+
 
     return (
         <div className="project-container" >
@@ -48,14 +51,14 @@ const ProjectsMenu = (props)=> {
                             <h5>Projects</h5>
                         </div>
                         {projectsList.map(e=>{
-                            console.log("selected: "+props.selectedProject)
-                            console.log("current:"+e.projectId)
                             return (
-                                <MenuItem selected={props.selectedProject==e.projectId} key={e.projectId} id={e.projectId} onClick={clickedProject} children={e.projectName}/>
+                                <MenuItem classes={{root:'MenuItem', selected: 'selected'}} selected={selectedProject==e.projectId} key={e.projectId} id={e.projectId} onClick={clickedProject} children={e.projectName}/>
                             )
                         })}
-                         <input onChange={handleInput} className="new-project-input" placeholder="project name"/>
-                        <Button onClick={addProject} variant ="contained" color="primary" fullWidth={true}>Add</Button>
+                        <div className="add-project-container">
+                            <input onChange={handleInput} className="new-project-input" placeholder="project name" value={newProjectName}/>
+                            <Button className="add-project-button" onClick={addProject} variant ="contained" color="primary" fullWidth={true}>Add</Button>
+                        </div>
                     </div>
                     <div>
                         <PartsMenu projectId={selectedProject}/>

@@ -36,13 +36,13 @@ const PartsMenu = (props) => {
         setInserted(data)
     }
 
-    const SelectAddOrShow = () =>{
-        if (addOrShow==="show"){
+    const selectAddOrShow = (data) =>{
+        if (data==="show"){
             return (
                 <PartData partId={selectedPart}/>
                 )
         }
-        if (addOrShow==="add"){
+        if (data==="add"){
             return (
                 <NewPart projectId={props.projectId} updatePartList={updatePartList}/>
             )
@@ -58,14 +58,16 @@ const PartsMenu = (props) => {
                     </div>
                     {partList.map(e=>{
                         return (
-                            <MenuItem key={e.partId} id={e.partId} onClick={clickedPart} children={e.partName} />
+                            <MenuItem selected={selectedPart==e.partId} key={e.partId} id={e.partId} onClick={clickedPart} children={e.partName} />
                         )
                     })}
-                    <Button onClick={newPart} size="small" variant="contained" color="primary" className ="new-part-button">New Part</Button>
+                    <div className="new-part-button-container">
+                        <Button className="new-part-button" onClick={newPart} variant="contained" color="primary">New Part</Button>
+                    </div>
                 </div>
             </div>
             <div className = "parts-data-container">
-                    <SelectAddOrShow />
+                    {selectAddOrShow(addOrShow)}
             </div>
         </div>
     )

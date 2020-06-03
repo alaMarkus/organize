@@ -1,0 +1,17 @@
+
+.add-project-container{
+    margin: 10pt;
+    text-align: center;
+}
+.new-project-input{
+    height: 20pt;
+    width: 95%;
+    box-sizing:border-box;
+    font-size: 13pt;
+    margin-top: 2pt;
+    margin-bottom: 2pt;
+    margin-right: 2pt;
+}
+.add-project-button{
+    width: 95%;
+}

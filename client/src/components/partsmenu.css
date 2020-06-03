@@ -1,3 +1,7 @@
+.new-part-button-container{
+    margin: 10pt;
+    text-align: center;
+}
 .new-part-button{
-    width: 100%;
+    width: 95%;
 }

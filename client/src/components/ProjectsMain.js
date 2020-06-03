@@ -1,6 +1,6 @@
 import React from 'react'
 
-import'./partsmain.css'
+import'./projectsmain.css'
 
 import ProjectsMenu from './ProjectsMenu'
 
