@@ -1,15 +1,11 @@
 import React from 'react'
-const Button = (props) =>{
-
-    const myStyle = {
-        heigth: "20pt",
-        width: "60pt"
-    }
+import './custombutton.css'
+const MyButton = (props) =>{
 
     return(
-        <button style={myStyle}></button>
+        <button>{props.text}</button>
     )
 }
 
-export default Button
+export default MyButton;
 

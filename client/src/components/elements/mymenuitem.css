@@ -1,0 +1,37 @@
+.menu-container{
+    line-height: 36px;
+    height:36px;
+    cursor: pointer;
+    text-indent: 10pt;
+}
+.menu-container:hover{
+    background-color: #eeeeee;
+}
+.selected{
+    background-color: #eeeeee;
+}
+.animate{
+    line-height: 36px;
+    height:36px;
+    cursor: pointer;
+    text-indent: 10pt;
+    animation: myfade 0.4s;
+}
+
+
+@keyframes myfade{
+    0%{}
+    5%{
+        background: rgb(48,205,255);
+        background: linear-gradient(90deg, rgba(48,205,255,1) 1%, rgba(0,0,36,0.7791317210477942) 100%);
+    }
+    100%{background-color: #eeeeee}
+}
+
+.menu-item{
+    margin-left: 12pt;
+    padding-top:6pt;
+}
+
+
+

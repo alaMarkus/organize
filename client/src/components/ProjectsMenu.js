@@ -5,6 +5,8 @@ import {MenuItem, Button} from '@material-ui/core'
 import './projectsmenu.css'
 
 import PartsMenu from './PartsMenu'
+import MyButton from './elements/CustomButton'
+import MyMenuItem from './elements/MyMenuItem'
 
 const ProjectsMenu = (props)=> {
     const [projectsList, setProjectList] = useState([])
@@ -52,7 +54,7 @@ const ProjectsMenu = (props)=> {
                         </div>
                         {projectsList.map(e=>{
                             return (
-                                <MenuItem classes={{root:'MenuItem', selected: 'selected'}} selected={selectedProject==e.projectId} key={e.projectId} id={e.projectId} onClick={clickedProject} children={e.projectName}/>
+                                <MyMenuItem selected={selectedProject==e.projectId} key={e.projectId} id={e.projectId} onClick={clickedProject} text ={e.projectName}/>
                             )
                         })}
                         <div className="add-project-container">

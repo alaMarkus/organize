@@ -9,12 +9,14 @@
     background-color: #3c66f3;
     margin-bottom: 20pt;
 }
+
 .nav-bar-item-container{
     display: table-cell;
     vertical-align: middle;
     height: 50pt;
     width: auto;
 }
+
 .nav-bar-item{
     padding: 25px;
     text-align: center;

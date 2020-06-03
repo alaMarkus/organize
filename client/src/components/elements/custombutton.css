@@ -1,0 +1,16 @@
+button{
+    height: 30pt;
+    width:  60pt;
+    background-color:#3c66f3;
+    border: none;
+    border-radius: 3pt;
+}
+button:active{
+    animation-name: fade;
+    animation-duration: 0.2s;
+}
+
+@keyframes fade{
+    0% {}
+    100%{background-color: fuchsia;}
+}

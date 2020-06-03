@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import {apiUrl} from '../config/config'
-import {MenuItem, Button} from '@material-ui/core'
+import {Button} from '@material-ui/core'
 import './partsmenu.css'
 
+import MyMenuItem from './elements/MyMenuItem'
 import PartData from './PartData'
 import NewPart from './NewPart'
 
@@ -58,7 +59,7 @@ const PartsMenu = (props) => {
                     </div>
                     {partList.map(e=>{
                         return (
-                            <MenuItem selected={selectedPart==e.partId} key={e.partId} id={e.partId} onClick={clickedPart} children={e.partName} />
+                            <MyMenuItem selected={selectedPart==e.partId} key={e.partId} id={e.partId} onClick={clickedPart} text={e.partName} />
                         )
                     })}
                     <div className="new-part-button-container">
