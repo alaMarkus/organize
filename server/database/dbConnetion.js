@@ -46,7 +46,11 @@ const insertGet = (sql, args) =>  {
         }else{
             if (args.includes(undefined)){
                 reject(new Error("undefined value in args"))
-            }else{
+            }
+            if (args.includes("")){
+                reject(new Error("empty value in args"))
+            }
+            else{
                 con.execute(sql, [...args], function(err,result){
                     if (err){
                         console.log("ERROR: ")

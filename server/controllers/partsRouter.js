@@ -32,8 +32,11 @@ partsRouter.post("/insertproject", isAuth, function(req, res){
 partsRouter.post("/deleteproject", isAuth, function(req,res){
     const user = req.session.userid
     const projectId = req.body.projectId
+    console.log("project id:")
+    console.log(projectId)
     queries.deleteProject(projectId,user)
         .then(function(result){
+            console.log(result)
             res.send("deleted project")
         })
         .catch(function(e){

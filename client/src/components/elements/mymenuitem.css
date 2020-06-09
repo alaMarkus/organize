@@ -1,8 +1,10 @@
 .menu-container{
+    display: flex;
     line-height: 36px;
     height:36px;
     cursor: pointer;
     text-indent: 10pt;
+    width: 100%;
 }
 .menu-container:hover{
     background-color: #eeeeee;
@@ -11,11 +13,21 @@
     background-color: #eeeeee;
 }
 .animate{
+    display: flex;
     line-height: 36px;
     height:36px;
     cursor: pointer;
     text-indent: 10pt;
+    width: 100%;
     animation: myfade 0.4s;
+}
+.icon{
+    align-self: center;
+    margin-left: auto;
+    border-radius: 50%;
+}
+.icon:hover{
+    background-color: #94a8ff;
 }
 
 

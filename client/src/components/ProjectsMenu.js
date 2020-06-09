@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import {apiUrl} from '../config/config'
-import {MenuItem, Button} from '@material-ui/core'
+import  {MenuItem, Button} from '@material-ui/core'
 import './projectsmenu.css'
 
 import PartsMenu from './PartsMenu'
@@ -13,6 +13,7 @@ const ProjectsMenu = (props)=> {
     const [selectedProject, setSelectedProject] = useState(1)
     const [newProjectName, setNewProjectName] = useState("")
     const [inserted, setInserted] = useState("")
+    const [deleteButtons, showDeleteButtons] = useState("hide")
 
     useEffect(()=>{
         axios
@@ -25,7 +26,9 @@ const ProjectsMenu = (props)=> {
 
     const clickedProject =(e) =>{
         console.log(e.target.id)
-        setSelectedProject(e.target.id)
+        if(e.target.id !== ""){
+            setSelectedProject(e.target.id)
+        }
     }
 
     const handleInput = (e) =>{
@@ -34,15 +37,46 @@ const ProjectsMenu = (props)=> {
     }
 
     const addProject = () =>{
-        axios
-            .post(apiUrl+"/api/part/insertproject", {"projectName":newProjectName})
-            .then(function(result){
-                console.log(result.data)
-                setInserted(result.data)
-                setNewProjectName("")
-            })
+        if (newProjectName != "")
+            {
+            axios
+                .post(apiUrl+"/api/part/insertproject", {"projectName":newProjectName})
+                .then(function(result){
+                    console.log(result.data)
+                    setInserted(result.data+newProjectName)
+                    setNewProjectName("")
+                })
+        }else{
+            alert("project needs a name!")
+        }
     }
 
+    const deleteProject = (e) =>{
+        let projectToDelete = e.target.parentNode.id
+        if(projectToDelete===""){
+           projectToDelete = e.target.parentNode.parentNode.id;
+        }
+        console.log(projectToDelete)
+        let confirmed = window.confirm("delete project and its contents?")
+        if (confirmed){
+            axios
+            .post(apiUrl+"/api/part/deleteproject", {"projectId": e.target.parentNode.id})
+            .then(function(result){
+                console.log(result.data)
+                setSelectedProject(1)
+                setInserted(result.data+projectToDelete)
+            })
+        }
+    }
+
+    const showDelete = () =>{
+        if (deleteButtons==="hide"){
+            showDeleteButtons("show")
+        }else if (deleteButtons==="show"){
+            showDeleteButtons("hide")
+        }
+        console.log(deleteButtons)
+    }
 
     return (
         <div className="project-container" >
@@ -50,11 +84,12 @@ const ProjectsMenu = (props)=> {
                 <div className="projects-menu-container">
                     <div className="projects-list">
                         <div className="projects-header-container">
+                            <Button variant="contained" size="small" color="primary" onClick={showDelete}>Delete projects</Button>
                             <h5>Projects</h5>
                         </div>
                         {projectsList.map(e=>{
                             return (
-                                <MyMenuItem selected={selectedProject==e.projectId} key={e.projectId} id={e.projectId} onClick={clickedProject} text ={e.projectName}/>
+                                    <MyMenuItem className="menu-item" selected={selectedProject==e.projectId} key={e.projectId} id={e.projectId} onClick={clickedProject} text ={e.projectName} delete={deleteButtons} onDeleteClick={deleteProject}/>
                             )
                         })}
                         <div className="add-project-container">
