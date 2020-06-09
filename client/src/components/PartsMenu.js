@@ -12,7 +12,8 @@ const PartsMenu = (props) => {
     const [partList, setPartList] = useState([])
     const [addOrShow, setAddOrShow] = useState("show")
     const [selectedPart, setSelectedPart] = useState(1)
-    const [partInserted, setPartInserted] = useState({})
+    const [reRender, reRenderCause] = useState({})
+    const [deleteButtons, showDeleteButtons] = useState("Delete Parts")
 
     useEffect(()=>{
         axios
@@ -21,12 +22,31 @@ const PartsMenu = (props) => {
                 console.log(result.data)
                 setPartList(result.data)
             })
-    },[props.projectId,partInserted])
+    },[props.projectId,reRender])
 
     const clickedPart = (e) =>{
         console.log(e.target.id)
         setSelectedPart(e.target.id)
         setAddOrShow("show")
+    }
+
+    const deletePart = (e) => {
+        let partToDelete = e.currentTarget.dataset.myid
+        console.log("currentTarget:")
+        console.log(partToDelete)
+        let confirmed = window.confirm("delete part?")
+        if (confirmed){
+            axios
+            .post(apiUrl+"/api/part/deletepart", {"partId": partToDelete})
+            .then(function(result){
+                console.log("result data:")
+                console.log(result.data)
+                setSelectedPart(1)
+                reRenderCause(result.data+partToDelete)
+                console.log("rerender:")
+                console.log(reRender)
+            })
+        }
     }
     
     const newPart = () =>{
@@ -34,7 +54,7 @@ const PartsMenu = (props) => {
     }
 
     const updatePartList = (data) =>{
-        setPartInserted(data)
+        reRenderCause(data)
     }
 
     const selectAddOrShow = (data) =>{
@@ -45,9 +65,17 @@ const PartsMenu = (props) => {
         }
         if (data==="add"){
             return (
-                <NewPart projectId={props.projectId} updatePartList={updatePartList}/>
+                <NewPart partList={partList} projectId={props.projectId} updatePartList={updatePartList}/>
             )
         }
+    }
+    const showDelete = () =>{
+        if (deleteButtons==="Delete Parts"){
+            showDeleteButtons("Done")
+        }else if (deleteButtons==="Done"){
+            showDeleteButtons("Delete Parts")
+        }
+        console.log(deleteButtons)
     }
 
     return (
@@ -56,10 +84,11 @@ const PartsMenu = (props) => {
                 <div className="parts-list">
                     <div className="parts-header-container">
                         <h5>Parts</h5>
+                        <Button className ="show-delete-button" variant="text" size="small" color="primary" onClick={showDelete}>{deleteButtons}</Button>
                     </div>
                     {partList.map(e=>{
                         return (
-                            <MyMenuItem selected={selectedPart==e.partId} key={e.partId} id={e.partId} onClick={clickedPart} text={e.partName} />
+                            <MyMenuItem selected={selectedPart==e.partId} key={e.partId} id={e.partId} onClick={clickedPart} text={e.partName} delete={deleteButtons} onDeleteClick={deletePart} myid={e.partId}/>
                         )
                     })}
                     <div className="new-part-button-container">

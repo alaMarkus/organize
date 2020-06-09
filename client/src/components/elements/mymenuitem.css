@@ -19,7 +19,7 @@
     cursor: pointer;
     text-indent: 10pt;
     width: 100%;
-    animation: myfade 0.4s;
+    animation: myfade 0.6s;
 }
 .icon{
     align-self: center;
@@ -32,10 +32,8 @@
 
 
 @keyframes myfade{
-    0%{}
-    5%{
-        background: rgb(48,205,255);
-        background: linear-gradient(90deg, rgba(48,205,255,1) 1%, rgba(0,0,36,0.7791317210477942) 100%);
+    0%{
+        background-color: black;
     }
     100%{background-color: #eeeeee}
 }

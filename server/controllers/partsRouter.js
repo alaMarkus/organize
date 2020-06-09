@@ -8,7 +8,7 @@ partsRouter.post("/getprojects", isAuth, function(req,res){
     queries.getProjects(user)
         .then(result=>{
             console.log("why is this empty? cause there might be no data on db")
-            console.log(result)
+            //console.log(result)
             res.send(result)
         })
         .catch(function(e){
@@ -65,7 +65,7 @@ partsRouter.post("/getparts", isAuth, function(req,res){
     console.log(project)
     queries.getParts(project,user)
         .then(result=>{
-            console.log(result)
+            //console.log(result)
             res.send(result)
         })
         .catch(function(e){
@@ -109,8 +109,10 @@ partsRouter.post("/insertpart", isAuth, function(req, res,){
 partsRouter.post("/deletepart",isAuth,function(req,res){
     const user = req.session.userid
     const partId = req.body.partId
+    console.log("request partId: "+partId)
     queries.deletePart(user,partId)
         .then(function(result){
+            console.log(result)
             res.send("part deleted")
         })
         .catch(function(e){
@@ -190,6 +192,22 @@ partsRouter.post("/parttobatch", isAuth, function(req,res){
             console.log(e)
         })
 })
+
+partsRouter.post("/projecttobatch", isAuth, function(req,res){
+    const user = req.session.userid
+    const batchId = req.body.batchId
+    const projectId = req.body.projectId
+    queries.projectToBatch(batchId, projectId, user)
+        .then(function(result){
+            console.log(result)
+            res.send("inserted all parts from project to batch")
+        })
+        .catch(function(e){
+            console.log(e)
+            res.send("something went wrong")
+        })
+})
+
 partsRouter.post("/removepartfrombatch", isAuth, function(req,res){
     const user = req.session.userid
     const partId = req.body.partId

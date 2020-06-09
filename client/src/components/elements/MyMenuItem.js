@@ -11,14 +11,14 @@ const MyMenuItem = (props) =>{
             setFade("animate")
             setTimeout(function(){
                 setFade("")
-            },400)
+            },600)
         }
     }
 
     const DeleteIcon = () =>{
-        if (props.delete==="show"){
+        if (props.delete==="Done"){
             return (
-                <DeleteForeverIcon className="icon" onClick={props.onDeleteClick}/>
+                <DeleteForeverIcon className="icon" onClick={props.onDeleteClick} data-myid={props.myid}/>
             )
         }else{
             return null;

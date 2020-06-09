@@ -16,6 +16,7 @@ exports.deleteProject = (projectId, user) => {
     const args = [projectId,user]
     return insertGet(sql,args)
 }
+
 exports.deleteProjectWithName = (projectName, user) => {
     const sql  = "DELETE project FROM project JOIN userdata ON project.userId=userdata.userId WHERE projectName = ? AND secId = ?"
     const args = [projectName,user]
@@ -100,7 +101,7 @@ exports.deletePart = (user,partId) => {
         `DELETE bushing FROM bushing
         JOIN project ON bushing.projectId = project.projectId 
         JOIN userdata ON project.userId = userdata.userId 
-        WHERE bushing.projectId = ? AND userdata.secId=?`
+        WHERE bushing.partId = ? AND userdata.secId=?`
     const args = [partId,user]
     return insertGet(sql,args)
 }
@@ -149,6 +150,15 @@ exports.partToBatch = (user,batchId, partId) => {
     const args = [batchId,user,partId,user]
     return insertGet(sql,args)
 }
+
+exports.projectToBatch = (batchId, projectId, user) =>{
+    const sql = `INSERT INTO batchcontent (batchId, partId )
+                    SELECT batchId, partId
+                    FROM bushing JOIN batch JOIN userdata ON batch.userId = userdata.userId WHERE projectId = ? AND batchId = ? AND userdata.secId = ?`
+    const args = [projectId,batchId, user]
+    return insertGet(sql, args)
+}
+
 exports.removePartFromBatch = (user,partId,batchId) => {
     console.log(user)
     console.log(batchId)

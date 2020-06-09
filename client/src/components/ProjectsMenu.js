@@ -5,15 +5,14 @@ import  {MenuItem, Button} from '@material-ui/core'
 import './projectsmenu.css'
 
 import PartsMenu from './PartsMenu'
-import MyButton from './elements/CustomButton'
 import MyMenuItem from './elements/MyMenuItem'
 
 const ProjectsMenu = (props)=> {
     const [projectsList, setProjectList] = useState([])
     const [selectedProject, setSelectedProject] = useState(1)
     const [newProjectName, setNewProjectName] = useState("")
-    const [inserted, setInserted] = useState("")
-    const [deleteButtons, showDeleteButtons] = useState("hide")
+    const [reRender, reRenderCause] = useState("")
+    const [deleteButtons, showDeleteButtons] = useState("Delete Projects")
 
     useEffect(()=>{
         axios
@@ -22,11 +21,12 @@ const ProjectsMenu = (props)=> {
             console.log(result.data)
             setProjectList(result.data)
         })
-    },[inserted])
+    },[reRender])
 
     const clickedProject =(e) =>{
+        console.log(e.currentTarget.id)
         console.log(e.target.id)
-        if(e.target.id !== ""){
+        if(e.currentTarget.id===e.target.id){
             setSelectedProject(e.target.id)
         }
     }
@@ -36,14 +36,15 @@ const ProjectsMenu = (props)=> {
         console.log(newProjectName)
     }
 
-    const addProject = () =>{
+    const addProject = (e) =>{
+        e.preventDefault()
         if (newProjectName != "")
             {
             axios
                 .post(apiUrl+"/api/part/insertproject", {"projectName":newProjectName})
                 .then(function(result){
                     console.log(result.data)
-                    setInserted(result.data+newProjectName)
+                    reRenderCause(result.data+newProjectName)
                     setNewProjectName("")
                 })
         }else{
@@ -52,28 +53,28 @@ const ProjectsMenu = (props)=> {
     }
 
     const deleteProject = (e) =>{
-        let projectToDelete = e.target.parentNode.id
-        if(projectToDelete===""){
-           projectToDelete = e.target.parentNode.parentNode.id;
-        }
+        const projectToDelete = e.currentTarget.dataset.myid
+        console.log("currentTarget:")
         console.log(projectToDelete)
         let confirmed = window.confirm("delete project and its contents?")
         if (confirmed){
             axios
-            .post(apiUrl+"/api/part/deleteproject", {"projectId": e.target.parentNode.id})
+            .post(apiUrl+"/api/part/deleteproject", {"projectId": projectToDelete})
             .then(function(result){
                 console.log(result.data)
                 setSelectedProject(1)
-                setInserted(result.data+projectToDelete)
+                reRenderCause(result.data+projectToDelete)
+                console.log("rerender:")
+                console.log(reRender)
             })
         }
     }
 
     const showDelete = () =>{
-        if (deleteButtons==="hide"){
-            showDeleteButtons("show")
-        }else if (deleteButtons==="show"){
-            showDeleteButtons("hide")
+        if (deleteButtons==="Delete Projects"){
+            showDeleteButtons("Done")
+        }else if (deleteButtons==="Done"){
+            showDeleteButtons("Delete Projects")
         }
         console.log(deleteButtons)
     }
@@ -84,17 +85,19 @@ const ProjectsMenu = (props)=> {
                 <div className="projects-menu-container">
                     <div className="projects-list">
                         <div className="projects-header-container">
-                            <Button variant="contained" size="small" color="primary" onClick={showDelete}>Delete projects</Button>
                             <h5>Projects</h5>
+                            <Button className ="show-delete-button" variant="text" size="small" color="primary" onClick={showDelete}>{deleteButtons}</Button>
                         </div>
                         {projectsList.map(e=>{
                             return (
-                                    <MyMenuItem className="menu-item" selected={selectedProject==e.projectId} key={e.projectId} id={e.projectId} onClick={clickedProject} text ={e.projectName} delete={deleteButtons} onDeleteClick={deleteProject}/>
+                                    <MyMenuItem className="menu-item" selected={selectedProject==e.projectId} key={e.projectId} id={e.projectId} onClick={clickedProject} text ={e.projectName} delete={deleteButtons} onDeleteClick={deleteProject} myid={e.projectId}/>
                             )
                         })}
                         <div className="add-project-container">
-                            <input onChange={handleInput} className="new-project-input" placeholder="project name" value={newProjectName}/>
-                            <Button className="add-project-button" onClick={addProject} variant ="contained" color="primary" fullWidth={true}>Add</Button>
+                            <form onSubmit={addProject}>
+                                <input onChange={handleInput} className="new-project-input" placeholder="project name" value={newProjectName}/>
+                                <Button className="add-project-button" type="submit" variant ="contained" color="primary" fullWidth={true}>Add</Button>
+                            </form>
                         </div>
                     </div>
                     <div>

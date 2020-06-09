@@ -8,12 +8,14 @@ const PartData = (props)=>{
     const [partData, setPartData] = useState([])
 
     useEffect(()=>{
-        axios
+        if (props.partId!==""){
+            axios
             .post(apiUrl+"/api/part/getpart",{"partId": props.partId})
             .then(function(result){
                 console.log(result.data)
                 setPartData(result.data)
             })
+        }
     },[props.partId])
 
     return (

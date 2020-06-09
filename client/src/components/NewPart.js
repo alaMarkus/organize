@@ -6,17 +6,24 @@ import './newpart.css'
 
 const NewPart = (props) => {
     const [partObj, setPartObj] = useState({"projectId": props.projectId, "outsideChamferType": "chamfer", "insideChamferType": "chamfer"})
+    const parts = props.partList.map(obj=>obj.partName)
+    const exists = parts.includes(partObj.partName)
 
     const handleSubmit = (e) =>{
         e.preventDefault();
-        axios
+        if (exists){
+            alert("project already has part called: "+partObj.partName)
+        }else{
+            axios
             .post(apiUrl+"/api/part/insertpart", {"partobj":partObj})
             .then(function(result){
                 console.log(result)
                 props.updatePartList(partObj)
             })
         console.log(partObj)
+        }
     }
+
     const handleChange = (e) =>{
         const obj1 = {[e.target.name]: e.target.value};
         setPartObj(
