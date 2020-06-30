@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
-import {apiUrl} from '../config/config'
+import {apiUrl} from '../../config/config'
 import  {MenuItem, Button} from '@material-ui/core'
 import './projectsmenu.css'
 
 import PartsMenu from './PartsMenu'
-import MyMenuItem from './elements/MyMenuItem'
+import MyMenuItem from '../elements/MyMenuItem'
 
 const ProjectsMenu = (props)=> {
     const [projectsList, setProjectList] = useState([])

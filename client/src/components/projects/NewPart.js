@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import axios from 'axios'
-import {apiUrl} from '../config/config'
+import {apiUrl} from '../../config/config'
 import {Button} from '@material-ui/core'
 import './newpart.css'
 

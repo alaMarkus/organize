@@ -4,7 +4,8 @@ import axios from 'axios'
 import {apiUrl} from './config/config'
 import {BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom'
 
-import ProjectsMain from './components/ProjectsMain'
+import ProjectsMain from './components/projects/ProjectsMain'
+import Orders from './components/orders/Orders'
 import NavBar from './components/NavBar'
 
 axios.defaults.withCredentials = true
@@ -21,15 +22,6 @@ function App() {
         setLoggedIn(response.data)
       })
   },[])
-  
-  const ShowPartsmain = ()=>{
-    if (loggedIn ==="welcome in"){
-      return <div><ProjectsMain/></div>
-    }
-    else{
-      return <div></div>
-    }
-  }
 
   return (
     <div className="App">
@@ -43,6 +35,9 @@ function App() {
         </Route>
         <Route path="/projects">
           <ProjectsMain/>
+        </Route>
+        <Route path="/orders">
+          <Orders />
         </Route>
         </Switch>
       </Router>

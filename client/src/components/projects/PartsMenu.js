@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
-import {apiUrl} from '../config/config'
+import {apiUrl} from '../../config/config'
 import {Button} from '@material-ui/core'
 import './partsmenu.css'
 
-import MyMenuItem from './elements/MyMenuItem'
+import MyMenuItem from '../elements/MyMenuItem'
 import PartData from './PartData'
 import NewPart from './NewPart'
 

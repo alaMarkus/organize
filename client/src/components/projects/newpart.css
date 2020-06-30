@@ -1,5 +1,5 @@
 .new-part-container{
-    background-image: url('./static/newpart.png');
+    background-image: url('../static/newpart.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 90%;
