@@ -114,7 +114,8 @@ exports.getBatches = (user) => {
 }
 exports.getBatchContent = (user,batch) => {
     const sql =
-        `SELECT partId FROM batchcontent 
+        `SELECT bushing.partId, partName FROM bushing
+        JOIN batchcontent ON bushing.partId = batchcontent.partId 
         JOIN batch ON batchcontent.batchId=batch.batchId
         JOIN userdata ON batch.userId = userdata.userId 
         WHERE batchcontent.batchId = ? AND userdata.secId = ?`

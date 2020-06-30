@@ -1,12 +1,16 @@
 import React from 'react'
 import BatchMenu from './BatchMenu'
+import projectsMenu from '../projects/ProjectsMenu'
 
 import './orders.css'
+import ProjectsMenu from '../projects/ProjectsMenu';
 
 const Orders = () =>{
     return (
         <div>
-            <BatchMenu />
+            <ProjectsMenu>
+                <BatchMenu />
+            </ProjectsMenu>
         </div>
     )
 }

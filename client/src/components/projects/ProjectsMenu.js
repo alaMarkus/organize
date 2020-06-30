@@ -101,7 +101,7 @@ const ProjectsMenu = (props)=> {
                         </div>
                     </div>
                     <div>
-                        <PartsMenu projectId={selectedProject}/>
+                        {React.cloneElement(props.children, {projectId:selectedProject})}
                     </div>
                 </div>        
             </div>

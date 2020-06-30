@@ -24,6 +24,7 @@
 .batch-list{
     width: 200pt;
     border: 1px solid;
+    align-self: flex-end;
 }
 
 .batch-list h5{

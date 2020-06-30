@@ -10,17 +10,8 @@ const BatchContent = (props) =>{
         axios
             .post(apiUrl+"/api/part/getbatchcontent", {"batchId": props.selectedBatch})
             .then(function(result){
-                //console.log(result.data)
-                const partIdArray = result.data.map(e=>{return e.partId})
-                console.log(partIdArray)
-                partIdArray.forEach(e=>{
-                    axios
-                    .post(apiUrl+"/api/part/getpart", {"partId": e})
-                    .then(function(result2){
-                        console.log(result2.data)
-                        setBatchData(result2.data)
-                    })
-                })
+                console.log(result.data)
+                setBatchData(result.data)
             })
     },[props.selectedBatch])
 
@@ -29,7 +20,7 @@ const BatchContent = (props) =>{
             {
                 batchData.map(e=>{
                     return (
-                        <div>{e.partId}<br></br></div>
+                        <div>{e.partName}<br></br></div>
                     )
                 })
             }
