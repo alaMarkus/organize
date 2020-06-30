@@ -4,13 +4,12 @@ import projectsMenu from '../projects/ProjectsMenu'
 
 import './orders.css'
 import ProjectsMenu from '../projects/ProjectsMenu';
+import PartsMenu from '../projects/PartsMenu';
 
 const Orders = () =>{
     return (
         <div>
-            <ProjectsMenu>
-                <BatchMenu />
-            </ProjectsMenu>
+            <BatchMenu />
         </div>
     )
 }

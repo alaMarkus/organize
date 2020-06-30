@@ -8,9 +8,7 @@ const PartsMain = () => {
 
     return (
         <div className="parts-main-container">
-            <ProjectsMenu>
-                <PartsMenu />
-            </ProjectsMenu>
+            <ProjectsMenu />
         </div>
     )
 }

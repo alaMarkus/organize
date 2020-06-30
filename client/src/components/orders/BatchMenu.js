@@ -6,6 +6,7 @@ import './batchmenu.css'
 
 import BatchContent from './BatchContent'
 import MyMenuItem from '../elements/MyMenuItem'
+import ProjectsMenu from '../projects/ProjectsMenu';
 
 const BatchsMenu = (props)=> {
     const [batchList, setBatchList] = useState([])

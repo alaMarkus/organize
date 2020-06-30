@@ -7,6 +7,7 @@ import './partsmenu.css'
 import MyMenuItem from '../elements/MyMenuItem'
 import PartData from './PartData'
 import NewPart from './NewPart'
+import BatchMenu from '../orders/BatchMenu'
 
 const PartsMenu = (props) => {
     const [partList, setPartList] = useState([])
