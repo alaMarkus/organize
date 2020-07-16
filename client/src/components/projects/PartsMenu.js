@@ -8,6 +8,7 @@ import MyMenuItem from '../elements/MyMenuItem'
 import PartData from './PartData'
 import NewPart from './NewPart'
 import BatchMenu from '../orders/BatchMenu'
+import Card from '../elements/Card'
 
 const PartsMenu = (props) => {
     const [partList, setPartList] = useState([])
@@ -61,7 +62,24 @@ const PartsMenu = (props) => {
     const selectAddOrShow = (data) =>{
         if (data==="show"){
             return (
-                <PartData partId={selectedPart}/>
+                <div className="parts-menu-container">
+                    <div className="parts-list">
+                        <div className="parts-header-container">
+                            <h5>Parts</h5>
+                            <Button className ="show-delete-button" variant="text" size="small" color="primary" onClick={showDelete}>{deleteButtons}</Button>
+                        </div>
+                        <div className = "parts-grid">
+                            {partList.map(e=>{
+                                return (
+                                    <Card selected={selectedPart==e.partId} key={e.partId} id={e.partId} onClick={clickedPart} text={e.partName} delete={deleteButtons} onDeleteClick={deletePart} myid={e.partId}/>
+                                )
+                            })}
+                            <div className="new-part-button-container">
+                                <Button className="new-part-button" onClick={newPart} variant="contained" color="primary">New Part</Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 )
         }
         if (data==="add"){
@@ -81,27 +99,9 @@ const PartsMenu = (props) => {
 
     return (
         <div className="parts-container">
-            <div className="parts-menu-container">
-                <div className="parts-list">
-                    <div className="parts-header-container">
-                        <h5>Parts</h5>
-                        <Button className ="show-delete-button" variant="text" size="small" color="primary" onClick={showDelete}>{deleteButtons}</Button>
-                    </div>
-                    {partList.map(e=>{
-                        return (
-                            <MyMenuItem selected={selectedPart==e.partId} key={e.partId} id={e.partId} onClick={clickedPart} text={e.partName} delete={deleteButtons} onDeleteClick={deletePart} myid={e.partId}/>
-                        )
-                    })}
-                    <div className="new-part-button-container">
-                        <Button className="new-part-button" onClick={newPart} variant="contained" color="primary">New Part</Button>
-                    </div>
-                </div>
-            </div>
-            <div className = "parts-data-container">
-                    {selectAddOrShow(addOrShow)}
-            </div>
+            {selectAddOrShow(addOrShow)}
         </div>
     )
 }
 
-export default PartsMenu
+export default PartsMenu;

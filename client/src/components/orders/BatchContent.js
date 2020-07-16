@@ -1,5 +1,4 @@
 import React,{useEffect, useState} from 'react'
-import './batchcontent.css'
 import axios from 'axios'
 import {apiUrl} from '../../config/config'
 

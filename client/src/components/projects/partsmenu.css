@@ -5,3 +5,13 @@
 .new-part-button{
     width: 95%;
 }
+.parts-grid{
+    width:100%;
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px;
+    grid-template-rows: 200px 200px 200px 200px;
+    grid-gap: 30pt;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20pt;
+}

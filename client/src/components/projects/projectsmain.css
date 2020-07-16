@@ -37,7 +37,6 @@
     height: 60pt;
 }
 
-
 .parts-container{
     display: flex;
     flex-direction: row;
@@ -48,10 +47,11 @@
     height: auto;
     width: auto;
     border: 1px solid;
+    margin-left: 30pt;
 }
 
 .parts-list{
-    width: 200pt;
+    width: 600pt;
 }
 .parts-list h5{
     margin: 0;
@@ -69,7 +69,7 @@
     float:left;
     border: 1px solid;
     height: 100%;
-    width: 700pt;
+    width: auto;
 }
 .part-data{
     border: 1px solid;
