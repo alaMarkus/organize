@@ -18,7 +18,7 @@ const NewPart = (props) => {
             .post(apiUrl+"/api/part/insertpart", {"partobj":partObj})
             .then(function(result){
                 console.log(result)
-                props.updatePartList(partObj)
+                props.updatePartList(partObj.partName)
             })
         console.log(partObj)
         }

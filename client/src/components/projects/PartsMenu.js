@@ -4,18 +4,21 @@ import {apiUrl} from '../../config/config'
 import {Button} from '@material-ui/core'
 import './partsmenu.css'
 
+import Batch from './Batch'
 import MyMenuItem from '../elements/MyMenuItem'
 import PartData from './PartData'
 import NewPart from './NewPart'
-import BatchMenu from '../orders/BatchMenu'
+import BatchMenu from './BatchMenu'
 import Card from '../elements/Card'
 
 const PartsMenu = (props) => {
+    const [selectedBatch, setSelectedBatch] = useState(1)
     const [partList, setPartList] = useState([])
     const [addOrShow, setAddOrShow] = useState("show")
     const [selectedPart, setSelectedPart] = useState(1)
     const [reRender, reRenderCause] = useState({})
     const [deleteButtons, showDeleteButtons] = useState("Delete Parts")
+    const [reRenderBatch, setReRenderBatch] = useState(1)
 
     useEffect(()=>{
         axios
@@ -23,6 +26,7 @@ const PartsMenu = (props) => {
             .then(function(result){
                 console.log(result.data)
                 setPartList(result.data)
+                setAddOrShow("show")
             })
     },[props.projectId,reRender])
 
@@ -56,28 +60,54 @@ const PartsMenu = (props) => {
     }
 
     const updatePartList = (data) =>{
+        console.log("uptadePartList called, data: "+data)
+        setAddOrShow("show")
         reRenderCause(data)
     }
+
+    const addToBatch = (e) =>{
+        console.log(e.target.name)
+        const partToAdd = e.target.name
+        axios
+            .post(apiUrl+"/api/part/parttobatch", {"partId": e.target.name, "batchId": selectedBatch})
+            .then(function(result){
+                console.log(result.data)
+                console.log("parttoadd: "+partToAdd)
+                setReRenderBatch(partToAdd)
+                console.log("rerenderbatch: "+reRenderBatch)
+            })
+    }
+    const getSelectedBatch = (val) =>{
+        console.log("selected batch:"+val)
+        setSelectedBatch(val)
+    }   
 
     const selectAddOrShow = (data) =>{
         if (data==="show"){
             return (
-                <div className="parts-menu-container">
-                    <div className="parts-list">
-                        <div className="parts-header-container">
-                            <h5>Parts</h5>
-                            <Button className ="show-delete-button" variant="text" size="small" color="primary" onClick={showDelete}>{deleteButtons}</Button>
-                        </div>
-                        <div className = "parts-grid">
-                            {partList.map(e=>{
-                                return (
-                                    <Card selected={selectedPart==e.partId} key={e.partId} id={e.partId} onClick={clickedPart} text={e.partName} delete={deleteButtons} onDeleteClick={deletePart} myid={e.partId}/>
-                                )
-                            })}
-                            <div className="new-part-button-container">
-                                <Button className="new-part-button" onClick={newPart} variant="contained" color="primary">New Part</Button>
+                <div className="flex-container">
+                    <div className="parts-menu-container">
+                        <div className="parts-list">
+                            <div className="parts-header-container">
+                                <h5>Parts</h5>
+                                <Button className ="show-delete-button" variant="text" size="small" color="primary" onClick={showDelete}>{deleteButtons}</Button>
+                            </div>
+                            <div className = "parts-grid">
+                                {partList.map(e=>{
+                                    return (
+                                        <Card selected={selectedPart==e.partId} key={e.partId} id={e.partId} onClick={clickedPart} text={e.partName} delete={deleteButtons} onDeleteClick={deletePart} myid={e.partId}>
+                                            <button className="add-to-batch-button" onClick={addToBatch} name={e.partId}>Add to batch</button>
+                                        </Card>
+                                    )
+                                })}
+                                <div className="new-part-button-container">
+                                    <Button className="new-part-button" onClick={newPart} variant="contained" color="primary">New Part</Button>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    <div className ="batch-container">
+                        <BatchMenu getSelectedBatch={getSelectedBatch} reRenderBatch={reRenderBatch}/>
                     </div>
                 </div>
                 )
@@ -98,7 +128,7 @@ const PartsMenu = (props) => {
     }
 
     return (
-        <div className="parts-container">
+        <div className="parts-data-container">
             {selectAddOrShow(addOrShow)}
         </div>
     )

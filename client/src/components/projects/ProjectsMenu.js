@@ -100,7 +100,7 @@ const ProjectsMenu = (props)=> {
                             </form>
                         </div>
                     </div>
-                    <div>
+                    <div className = "parts-container">
                         <PartsMenu projectId={selectedProject}/>
                     </div>
                 </div>        

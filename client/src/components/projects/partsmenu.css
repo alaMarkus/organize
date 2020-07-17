@@ -15,3 +15,11 @@
     justify-content: center;
     margin-top: 20pt;
 }
+.batch-container{
+    margin-left: 30pt;
+    width: 100%;
+    border: 1px solid;
+}
+.add-to-batch-button{
+
+}

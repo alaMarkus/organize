@@ -1,0 +1,17 @@
+.batch-header-container{
+    text-align: center;
+}
+.batch-header{
+    font-size: 14pt;
+}
+.add-batch-container{
+    text-align: center;
+}
+.new-batch-input{
+    width: 90%;
+    height: 18pt;
+    margin-bottom: 10pt;
+}
+.add-batch-button{
+    width: 75%;
+}
