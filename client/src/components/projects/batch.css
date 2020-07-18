@@ -20,3 +20,26 @@
     margin-left: 20pt;
     margin-top:10pt;
 }
+.batch-content-header{
+    text-align: center;
+    margin: 0;
+    padding-top: 10pt;
+}
+.batch-header-container{
+    background-color: #6c9aff;
+    height: 60pt;
+}
+.remove-icon{
+    cursor: pointer;
+    height: 5px;
+    float: right;
+    margin-right: 10pt;
+    border-radius: 50%;
+}
+.remove-icon:hover{
+    background-color: #6c9aff;
+}
+.batch-data-item{
+    height: 20pt;
+    line-height: 20pt;
+}

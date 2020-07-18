@@ -3,6 +3,8 @@
 }
 .batch-header{
     font-size: 14pt;
+    margin: 0;
+    padding-top: 10pt;
 }
 .add-batch-container{
     text-align: center;

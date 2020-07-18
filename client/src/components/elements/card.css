@@ -8,3 +8,12 @@
 .card-header{
 padding: 10pt;
 }
+.part-icon{
+    align-self: center;
+    margin-left: auto;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.part-icon:hover{
+    background-color: #94a8ff;
+}

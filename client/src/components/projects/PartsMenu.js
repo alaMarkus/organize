@@ -18,7 +18,7 @@ const PartsMenu = (props) => {
     const [selectedPart, setSelectedPart] = useState(1)
     const [reRender, reRenderCause] = useState({})
     const [deleteButtons, showDeleteButtons] = useState("Delete Parts")
-    const [reRenderBatch, setReRenderBatch] = useState(1)
+    const [reRenderBatch, setReRenderBatch] = useState("")
 
     useEffect(()=>{
         axios
@@ -29,6 +29,11 @@ const PartsMenu = (props) => {
                 setAddOrShow("show")
             })
     },[props.projectId,reRender])
+
+    useEffect(()=>{
+        console.log("reRenderReason: "+props.reRenderBatchContent)
+        setReRenderBatch(props.reRenderBatchContent)
+    },[props.reRenderBatchContent])
 
     const clickedPart = (e) =>{
         console.log(e.target.id)
@@ -49,6 +54,7 @@ const PartsMenu = (props) => {
                 console.log(result.data)
                 setSelectedPart(1)
                 reRenderCause(result.data+partToDelete)
+                setReRenderBatch(result.data+partToDelete)
                 console.log("rerender:")
                 console.log(reRender)
             })
@@ -72,13 +78,10 @@ const PartsMenu = (props) => {
             .post(apiUrl+"/api/part/parttobatch", {"partId": e.target.name, "batchId": selectedBatch})
             .then(function(result){
                 console.log(result.data)
-                console.log("parttoadd: "+partToAdd)
                 setReRenderBatch(partToAdd)
-                console.log("rerenderbatch: "+reRenderBatch)
             })
     }
     const getSelectedBatch = (val) =>{
-        console.log("selected batch:"+val)
         setSelectedBatch(val)
     }   
 

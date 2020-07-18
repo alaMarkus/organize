@@ -1,0 +1,33 @@
+.menus-container{
+    display: flex;
+}
+.orders-batch-container{
+    width: auto;
+}
+.orders-batch-menu-container{
+    display: flex;
+    flex-direction: row;
+    width: auto;
+}
+.orders-batch-list{
+    width: 160pt;
+}
+.orders-batch-header{
+    text-align: center;
+    margin: 0;
+    padding: 15pt;
+    background-color: #599cff;
+}
+.order-parts-container{
+    border: 1px solid;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 300pt;
+}
+.order-batch-data-container{
+    width: 400pt;
+}
+.order-batch-content-item{
+    margin: 10pt;
+}

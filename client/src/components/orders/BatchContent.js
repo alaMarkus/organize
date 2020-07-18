@@ -15,11 +15,11 @@ const BatchContent = (props) =>{
     },[props.selectedBatch])
 
     return (
-        <div className = "batch-data-container">
+        <div className = "order-batch-data-container">
             {
                 batchData.map(e=>{
                     return (
-                        <div>{e.partName}<br></br></div>
+                        <div className="order-batch-content-item" key={e.partId}>{e.partName}<br></br></div>
                     )
                 })
             }

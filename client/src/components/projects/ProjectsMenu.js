@@ -101,7 +101,7 @@ const ProjectsMenu = (props)=> {
                         </div>
                     </div>
                     <div className = "parts-container">
-                        <PartsMenu projectId={selectedProject}/>
+                        <PartsMenu projectId={selectedProject} reRenderBatchContent={reRender}/>
                     </div>
                 </div>        
             </div>

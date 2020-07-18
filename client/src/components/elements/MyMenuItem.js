@@ -24,6 +24,7 @@ const MyMenuItem = (props) =>{
             return null;
         }
     }
+
     return (
         <div id={props.id} className={[fade ? "animate" : "menu-container"] +[props.selected ? " selected" : ""]}  onClick={handleClick}>
             {props.text}

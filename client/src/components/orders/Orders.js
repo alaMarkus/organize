@@ -1,15 +1,12 @@
 import React from 'react'
-import BatchMenu from './BatchMenu'
-import projectsMenu from '../projects/ProjectsMenu'
+import CreateOrder from './CreateOrder'
 
 import './orders.css'
-import ProjectsMenu from '../projects/ProjectsMenu';
-import PartsMenu from '../projects/PartsMenu';
 
 const Orders = () =>{
     return (
         <div>
-            <BatchMenu />
+            <CreateOrder />
         </div>
     )
 }
