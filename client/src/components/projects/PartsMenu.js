@@ -10,6 +10,7 @@ import PartData from './PartData'
 import NewPart from './NewPart'
 import BatchMenu from './BatchMenu'
 import Card from '../elements/Card'
+import { func } from 'prop-types';
 
 const PartsMenu = (props) => {
     const [selectedBatch, setSelectedBatch] = useState(1)
@@ -100,6 +101,7 @@ const PartsMenu = (props) => {
                                     return (
                                         <Card selected={selectedPart==e.partId} key={e.partId} id={e.partId} onClick={clickedPart} text={e.partName} delete={deleteButtons} onDeleteClick={deletePart} myid={e.partId}>
                                             <button className="add-to-batch-button" onClick={addToBatch} name={e.partId}>Add to batch</button>
+                                            <div className="part-valid">Valid: {e.valid}</div>
                                         </Card>
                                     )
                                 })}

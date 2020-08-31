@@ -22,6 +22,7 @@ function mode(){
 }
 
 
+
 con.connect(function(err){
     if(err) throw err;
     console.log("connected to database")

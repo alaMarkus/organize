@@ -1,6 +1,8 @@
 const partsRouter = require('express').Router()
 const queries = require("../database/partsQuery")
+const machineQueries = require("../database/machineQuery")
 const isAuth = require("./isAuth")
+const match = require("../logic/match")
 
 //projects
 partsRouter.post("/getprojects", isAuth, function(req,res){
@@ -65,8 +67,19 @@ partsRouter.post("/getparts", isAuth, function(req,res){
     console.log(project)
     queries.getParts(project,user)
         .then(result=>{
-            //console.log(result)
-            res.send(result)
+            machineQueries.getAllMachines()
+                .then(result2=>{
+                    result.forEach(e=>{
+                        console.log("result: "+e.partId)
+                        if(match(e, result2)){
+                            e.valid = "true"
+                        }else{
+                            e.valid= "false"
+                        }
+                    })
+                    console.log(result)
+                    res.send(result)
+                })
         })
         .catch(function(e){
             res.send("something went wrong")

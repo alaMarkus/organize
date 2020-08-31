@@ -1,8 +1,8 @@
 const matchRouter = require('express').Router()
 const isAuth = require('../controllers/isAuth')
-const match = require('./matchMachines')
 const queries = require("../database/machineQuery")
 const parts = require("../database/orderQuery")
+const partQueries = require("../database/partsQuery")
 const {writeNcFile} = require("./writeNcFile")
 
 matchRouter.post("/match",isAuth, function(req,res){
@@ -52,6 +52,31 @@ matchRouter.post("/writenc", isAuth,function(req,res){
         console.log("something went wrong")
         console.log(e)
     })
+})
+
+matchRouter.post("/validmachinesindb", isAuth, function(req,res){
+    const user = req.session.userid
+    const partId = req.body.partId
+    partQueries.getPart(partId, user)
+        .then(partArr=>{
+            queries.getAllMachines()
+                .then(machinesobj=>{
+                    const validMachines = match(partArr,machinesobj) //returns array
+                    console.log("valid machines: ")
+                    console.log(validMachines)
+                    if(validMachines.length>0){
+                        res.send("true")
+                    }else{
+                        res.send("false")
+                    }
+        
+                })
+                .catch(function(e){
+                    res.send("something went wrong")
+                    console.log("something went wrong")
+                    console.log(e)
+                })
+        })
 })
 
 module.exports = matchRouter
