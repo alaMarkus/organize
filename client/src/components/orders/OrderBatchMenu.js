@@ -58,7 +58,7 @@ const OrderBatchMenu = (props)=> {
 
     const chooseMachine = () => {
         axios
-            .post(apiUrl+"/api/match",{"partId": 1})
+            .post(apiUrl+"/api/match",{"batchId": 1})
             .then(function(result){
                 console.log(result.data)
             })
