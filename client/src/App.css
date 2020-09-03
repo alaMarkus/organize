@@ -24,3 +24,8 @@
     color: white;
     font-size: 20px;
 }
+
+.plain-button{
+    border:none;
+    margin:2pt;
+}

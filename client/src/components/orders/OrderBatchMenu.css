@@ -21,13 +21,36 @@
 .order-parts-container{
     border: 1px solid;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     height: 100%;
-    width: 300pt;
+    width: 500pt;
+}
+.order-batch-row{
+    display: grid;
+    grid-template-columns: 120px 50px 60px;
+    grid-template-rows: 5px auto 5px; 
+    column-gap: 10px;
+    row-gap: 15px;
 }
 .order-batch-data-container{
-    width: 400pt;
+    height: 100%;
+    width: 500pt;
+    background-color:#bed8ff;
 }
 .order-batch-content-item{
     margin: 10pt;
+}
+.order-button{
+    height: 50pt;
+    width:60pt;
+    align-self: center;
+    background-color: #537bb8;
+    font-size:12pt;
+}
+.order-button:hover{
+    background-color: cornflowerblue;
+}
+
+.order-button-container{
+    align-self: flex-end;
 }

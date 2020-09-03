@@ -3,6 +3,7 @@ const isAuth = require('../controllers/isAuth')
 const queries = require("../database/machineQuery")
 const parts = require("../database/orderQuery")
 const partQueries = require("../database/partsQuery")
+const {findMachineForPart} = require("./matchMachines")
 const {writeNcFile} = require("./writeNcFile")
 
 matchRouter.post("/match",isAuth, function(req,res){
@@ -10,14 +11,14 @@ matchRouter.post("/match",isAuth, function(req,res){
     const partId = req.body.partId
     console.log(partId)
     console.log(user)
-    parts.getPartForOrder(partId)
+    partQueries.getPart(partId,user)
         .then(partArr=>{
             queries.getAllMachines()
                 .then(machinesobj=>{
-                    const validMachines = match(partArr,machinesobj) //returns array
+                    const chosenMachine = findMachineForPart(partArr[0],machinesobj) //returns array
                     console.log("valid machines: ")
-                    console.log(validMachines)
-                    res.send("valid machines for part "+partId+": "+validMachines)
+                    console.log(chosenMachine)
+                    res.send("chosen machine for part: "+partId+": "+chosenMachine.machineId)
                 })
                 .catch(function(e){
                     res.send("something went wrong")

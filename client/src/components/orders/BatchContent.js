@@ -19,7 +19,10 @@ const BatchContent = (props) =>{
             {
                 batchData.map(e=>{
                     return (
-                        <div className="order-batch-content-item" key={e.partId}>{e.partName}<br></br></div>
+                            <div className="order-batch-row">
+                                <div className="order-batch-content-item" key={e.partId}>{e.partName}</div>
+                                <div className="order-batch-content-item" >test</div>
+                            </div>
                     )
                 })
             }

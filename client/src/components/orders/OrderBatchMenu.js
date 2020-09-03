@@ -56,6 +56,14 @@ const OrderBatchMenu = (props)=> {
             })
     }
 
+    const chooseMachine = () => {
+        axios
+            .post(apiUrl+"/api/match",{"partId": 1})
+            .then(function(result){
+                console.log(result.data)
+            })
+    }
+
     return (
         <div className="orders-batch-container" >
             <div className="menus-container">
@@ -71,7 +79,10 @@ const OrderBatchMenu = (props)=> {
                     </div>
                     <div className = "order-parts-container">
                         <BatchContent selectedBatch = {selectedBatch}/>
-                        <Button onClick={submitOrder}>Create Order</Button>
+                        <div className="order-button-container">
+                            <button className="order-button plain-button"  onClick={submitOrder}>Create Order</button>
+                            <button className="order-button plain-button"  onClick={chooseMachine}>Choose machine</button>
+                        </div>
                     </div>
                 </div>        
             </div>
