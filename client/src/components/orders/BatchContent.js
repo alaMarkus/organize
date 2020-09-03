@@ -7,7 +7,7 @@ const BatchContent = (props) =>{
 
     useEffect(()=>{
         axios
-            .post(apiUrl+"/api/part/getbatchcontent", {"batchId": props.selectedBatch})
+            .post(apiUrl+"/api/partdatafororderbatch", {"batchId": props.selectedBatch})
             .then(function(result){
                 console.log(result.data)
                 setBatchData(result.data)
@@ -19,9 +19,9 @@ const BatchContent = (props) =>{
             {
                 batchData.map(e=>{
                     return (
-                            <div className="order-batch-row">
+                            <div key = {e.partId} className="order-batch-row">
                                 <div className="order-batch-content-item" key={e.partId}>{e.partName}</div>
-                                <div className="order-batch-content-item" >test</div>
+                                <div className="order-batch-content-item" >{e.machineId}</div>
                             </div>
                     )
                 })
