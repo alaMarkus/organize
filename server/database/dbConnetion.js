@@ -14,7 +14,7 @@ function mode(){
     }else{
         return ({
             host: "localhost",
-            user: "root",
+            user: "iamgroot",
             password: "",
             database: "organize"
         })
