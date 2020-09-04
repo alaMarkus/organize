@@ -13,7 +13,7 @@ function mode(){
         })
     }else{
         return ({
-            host: "95.216.173.144:3306",
+            host: "localhost:3306",
             user: "iamgroot",
             password: "",
             database: "organize"
