@@ -14,8 +14,8 @@ function mode(){
     }else{
         return ({
             host: "95.216.173.144",
-            user: "root",
-            password: "",
+            user: "groot",
+            password: "groot",
             database: "organize"
         })
     }

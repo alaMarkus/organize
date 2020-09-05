@@ -104,7 +104,7 @@ partsRouter.post("/getpart", isAuth, function(req,res){
         })
 })
 
-partsRouter.post("/insertpart", isAuth, function(req, res,){
+partsRouter.post("/insertpart", isAuth, function(req, res){
     const part = req.body.partobj
     const user = req.session.userid
     //console.log(part)

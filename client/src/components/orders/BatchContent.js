@@ -6,11 +6,14 @@ const BatchContent = (props) =>{
     const [batchData, setBatchData] = useState([]);
 
     useEffect(()=>{
+        let t0 = performance.now()
         axios
             .post(apiUrl+"/api/partdatafororderbatch", {"batchId": props.selectedBatch})
             .then(function(result){
                 console.log(result.data)
                 setBatchData(result.data)
+                let t1 = performance.now()
+                console.log("sql query took: "+(t1-t0)+" ms")
             })
     },[props.selectedBatch])
 

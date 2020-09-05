@@ -7,6 +7,7 @@ import {BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom'
 import ProjectsMain from './components/projects/ProjectsMain'
 import Orders from './components/orders/Orders'
 import NavBar from './components/NavBar'
+import Testing from './components/testing/Testing'
 
 axios.defaults.withCredentials = true
 
@@ -38,6 +39,9 @@ function App() {
         </Route>
         <Route path="/orders">
           <Orders />
+        </Route>
+        <Route path="/testing">
+          <Testing />
         </Route>
         </Switch>
       </Router>

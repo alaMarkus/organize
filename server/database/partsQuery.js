@@ -44,6 +44,28 @@ exports.getParts = (project, user) =>{
     return insertGet(sql,args)
 }
 
+exports.getPartsOfBatch = (batch, user) =>{
+    const sql =
+        `SELECT 
+        partId,
+        partName, 
+        outsideDiameter, 
+        insideDiameter, 
+        bushingLength, 
+        outsideChamfer, 
+        insideChamfer, 
+        outsideChamferType, 
+        insideChamferType
+        FROM bushing 
+        JOIN batchcontent ON batchcontent.partId = bushing.partId
+        JOIN batch ON batch.batchId = batchcontent.batchId
+        JOIN userdata ON batch.userId = userdata.userId 
+        WHERE batchcontent.batchId = ? AND userdata.secId=?`
+    const args = [batch, user]
+    return insertGet(sql,args)
+}
+
+
 exports.getPart = (partId, user) => {
     const sql =
         `SELECT 
