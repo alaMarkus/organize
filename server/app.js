@@ -8,6 +8,8 @@ const machineRouter = require("./controllers/machineRouter")
 const orderRouter = require("./controllers/orderRouter")
 const auth = require("./controllers/authRouter")
 const testRouter = require('./controllers/testRouter')
+const path = require('path');
+
 const app = express()
 const port = 8083;
 
@@ -20,6 +22,11 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
+
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.listen(port, () => console.log("listening on port "+port))
 app.use(express.json())
