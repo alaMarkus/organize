@@ -47,7 +47,7 @@ exports.getParts = (project, user) =>{
 exports.getPartsOfBatch = (batch, user) =>{
     const sql =
         `SELECT 
-        partId,
+        bushing.partId,
         partName, 
         outsideDiameter, 
         insideDiameter, 
