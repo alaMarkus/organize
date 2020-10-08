@@ -35,7 +35,8 @@ exports.getParts = (project, user) =>{
         outsideChamfer, 
         insideChamfer, 
         outsideChamferType, 
-        insideChamferType
+        insideChamferType,
+        validMachine
         FROM bushing 
         JOIN project ON bushing.projectId = project.projectId 
         JOIN userdata ON project.userId = userdata.userId 
@@ -65,6 +66,10 @@ exports.getPartsOfBatch = (batch, user) =>{
     return insertGet(sql,args)
 }
 
+exports.getAllParts = () =>{
+    const sql = "SELECT * FROM bushing"
+    return insertGet(sql)
+}
 
 exports.getPart = (partId, user) => {
     const sql =
@@ -118,6 +123,17 @@ exports.insertPart = (user,partobj) => {
     ]
     return insertGet(sql,args)
 }
+
+exports.updateValidMachine = (machineId,partId) =>{
+    console.log(machineId,partId)
+    const sql = `UPDATE bushing JOIN project 
+                ON bushing.projectId = project.projectId 
+                JOIN userdata ON project.userId = userdata.userId  
+                SET validMachine = ? WHERE partId = ?`
+    const args = [machineId,partId]
+    return insertGet(sql, args)
+}
+
 exports.deletePart = (user,partId) => {
     const sql = 
         `DELETE bushing FROM bushing

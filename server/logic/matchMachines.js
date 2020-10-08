@@ -63,6 +63,38 @@ const findMachineForPart = (part, machines) =>{
     return chosenMachine
 }
 
+const findPartsForMachine = (machine, parts) =>{
+    let validParts = []
+    console.log("machine: ")
+    console.log(machine)
+    console.log("parts: ")
+    console.log(parts)
+    for (let i = 0; i<parts.length; i++){
+        const machineId = machine.machineId
+        const userId = machine.userId
+        const machineName = machine.machineName
+        const minLength = machine.minLength
+        const maxLength = machine.maxLength
+        const minOutsideDiameter = machine.minOutsideDiameter
+        const maxOutsideDiameter = machine.maxOutsideDiameter
+        const minInsideDiameter = machine.minInsideDiameter
+        const maxInsideDiameter = machine.maxInsideDiameter
 
+        if (validDimension(minLength,maxLength,parts[i].bushingLength)&&
+            validDimension(minOutsideDiameter,maxOutsideDiameter, parts[i].outsideDiameter)&&
+            validDimension(minInsideDiameter,maxInsideDiameter,parts[i].insideDiameter)){
+            console.log("part "+parts[i].partId+" is valid for machine: "+ machineId)
+            validParts.push(parts[i])
+        }else{
+            console.log("cant do")
+        }
+}
+console.log("valid parts: ")
+for (i=0; i<validParts.length;i++){
+    console.log(validParts[i].partName)
+}
+return validParts;
+}
 
 exports.findMachineForPart = findMachineForPart;
+exports.findPartsForMachine = findPartsForMachine;

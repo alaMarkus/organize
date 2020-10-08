@@ -1,8 +1,8 @@
 const partsRouter = require('express').Router()
 const queries = require("../database/partsQuery")
 const machineQueries = require("../database/machineQuery")
+const {callWorker} = require("../background")
 const isAuth = require("./isAuth")
-const match = require("../logic/match")
 
 //projects
 partsRouter.post("/getprojects", isAuth, function(req,res){
@@ -67,20 +67,8 @@ partsRouter.post("/getparts", isAuth, function(req,res){
     console.log(project)
     queries.getParts(project,user)
         .then(result=>{
-            machineQueries.getAllMachines()
-                .then(result2=>{
-                    result.forEach(e=>{
-                        console.log("result: "+e.partId)
-                        if(match(e, result2)){
-                            e.valid = "true"
-                        }else{
-                            e.valid= "false"
-                        }
-                    })
-                    console.log(result)
-                    res.send(result)
-                })
-        })
+            res.send(result)
+            })
         .catch(function(e){
             res.send("something went wrong")
             console.log("something went wrong")
@@ -104,12 +92,14 @@ partsRouter.post("/getpart", isAuth, function(req,res){
         })
 })
 
+
 partsRouter.post("/insertpart", isAuth, function(req, res){
     const part = req.body.partobj
     const user = req.session.userid
     //console.log(part)
     queries.insertPart(user,part)
         .then(function(result){
+            callWorker(part)
             res.send("inserted part")
         })
         .catch(function(e){
