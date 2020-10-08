@@ -15,10 +15,15 @@ matchRouter.post("/partdatafororderbatch",isAuth, function(req,res){
                     .then(result=>{
                         for (let i = 0; i<result.length; i++){
                            const chosenMachine = findMachineForPart(result[i], allMachines)
-                           partArr.push()
+                           partArr.push(result[i])
+                           if (chosenMachine===undefined){
+                               partArr[i].machineId = "no valid machines"
+                           }else{
+                               partArr[i].machineId = chosenMachine.machineId
+                           }
                         }
                         console.log(result)
-                        res.send(result)
+                        res.send(partArr)
                     })
                     .catch(function(e){
                         res.send("something went wrong")
