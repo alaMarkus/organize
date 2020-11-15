@@ -1,0 +1,2 @@
+cannot delete batch if it's on partorder table
+-->logic to separate ordered batches

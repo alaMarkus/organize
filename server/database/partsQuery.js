@@ -82,7 +82,8 @@ exports.getPart = (partId, user) => {
         outsideChamfer, 
         insideChamfer, 
         outsideChamferType, 
-        insideChamferType
+        insideChamferType,
+        validMachine
         FROM bushing JOIN project
         ON bushing.projectId = project.projectId
         JOIN userdata
