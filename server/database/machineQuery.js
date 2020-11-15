@@ -38,7 +38,11 @@ exports.getMachine = (user, machineId)=>{
         minOutsideDiameter,
         maxOutsideDiameter,
         minInsideDiameter,
-        maxInsideDiameter
+        maxInsideDiameter,
+        stockOutsideDiameter,
+        stockInsideDiameter,
+        rapidSpeed,
+        maxRpm
         FROM machine 
         JOIN userdata ON machine.userID = userdata.UserID 
         WHERE secId = ? AND machineId = ?`
@@ -233,4 +237,10 @@ exports.deletePost = (user,postId) => {
         WHERE postId = ? AND secId = ?`
     const args = [postId, user]
     return insertGet(sql, args)
+}
+
+exports.getParameters = (id) =>{
+    const sql = `SELECT * FROM postparameter WHERE parameterSetId = ?`
+    const args = [id]
+    return insertGet(sql,args)
 }
