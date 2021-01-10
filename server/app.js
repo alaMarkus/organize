@@ -16,7 +16,7 @@ const port = 8083;
 console.log(process.env.SECRET)
 
 const corsOptions = {
-    origin: "http://localhost:3000",
+    origin: "http://95.216.173.144:8083",
     optionsSuccesStatus:200,
     credentials: true
 }

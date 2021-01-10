@@ -16,7 +16,7 @@ function mode(){
             host: "95.216.173.144",
             user: "groot",
             password: "groot",
-            database: "organize"
+            database: "organize_presentation"
         })
     }
 }
