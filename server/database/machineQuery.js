@@ -164,6 +164,36 @@ exports.getPost = (user,postId) => {
     const args = [user,postId]
     return insertGet(sql,args)
 }
+exports.getPostWithId = (postId) => {
+    const sql =
+        `SELECT
+        postId,
+        programNumber,
+        referencePoint,
+        maxRevs,
+        toolChangePosition,
+        outsideRoughingTool,
+        outsideRoughingSpeed,
+        facingFeed,
+        roughingCycleFirstLine,
+        roughingCycleSecondLine,
+        outsideFinishingTool,
+        outsideFinishingCycle,
+        insideRoughingTool,
+        insideRoughingCycleFirstLine,
+        insideRoughingCycleSecondline,
+        insideFinishingTool,
+        insideFinishingCycle,
+        cutOffTool,
+        cutOffSpeed,
+        cutOffFeed,
+        programEnd,
+        postName
+        FROM postprocessor
+        WHERE postId = ?`
+    const args = [postId]
+    return insertGet(sql,args)
+}
 
 exports.updatePost = (user,postobj) => {
     const sql =

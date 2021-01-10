@@ -17,7 +17,7 @@ function App() {
   useEffect(()=>{
     console.log(apiUrl)
     axios
-      .post(apiUrl+"/auth/login",{"email": "firstclient@hotmail.com", "passw": "salasana2"})
+      .post(apiUrl+"/auth/login",{"email": "exampleClient@hotmail.com", "passw": "salasana"})
       .then(function(response){
         console.log(response.data)
         setLoggedIn(response.data)

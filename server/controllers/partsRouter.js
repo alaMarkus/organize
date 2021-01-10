@@ -99,8 +99,12 @@ partsRouter.post("/insertpart", isAuth, function(req, res){
     //console.log(part)
     queries.insertPart(user,part)
         .then(function(result){
-            callWorker(part)
-            res.send("inserted part")
+            queries.getLastPart()
+                .then(function(result2){
+                    console.log(result2)
+                    callWorker(result2[0])
+                    res.send("inserted part")
+                })
         })
         .catch(function(e){
             res.send("something went wrong")

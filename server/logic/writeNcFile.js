@@ -2,6 +2,7 @@ const fs = require('fs')
 
 exports.writeNcFile = (machineobj,postobj,partobj) =>{
     console.log("called writenc")
+    console.log(postobj)
 
     fs.mkdir('./data/'+machineobj.machineName+"_"+machineobj.machineId,function(err){
         if (err){

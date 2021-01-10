@@ -36,7 +36,7 @@ const NewPart = (props) => {
         <div className="new-part-container">
             <form onSubmit={handleSubmit}>
                 <input className ="part-name" name="partName" onChange={handleChange} required autoComplete="off" placeholder="part name"/>
-                <input className ="part-length" name="partLength" onChange={handleChange}  required autoComplete="off" placeholder="part length"/>
+                <input className ="part-length" name="bushingLength" onChange={handleChange}  required autoComplete="off" placeholder="part length"/>
                 <input className = "outside-diameter" name="outsideDiameter" onChange={handleChange}  required autoComplete="off" placeholder="outside diameter"/>
                 <input className = "inside-diameter" name="insideDiameter" onChange={handleChange}  required autoComplete="off" placeholder="inside diameter"/>
 

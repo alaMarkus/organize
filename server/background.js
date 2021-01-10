@@ -1,6 +1,7 @@
 const wt = require("worker-thread");
 const queries = require("./database/partsQuery")
 const machineQueries = require("./database/machineQuery")
+const writeNc = require("./logic/writeNcFile")
 const {findMachineForPart, findPartsForMachine} = require("./logic/matchMachines")
  
 function partWorker(partObj) {
@@ -11,7 +12,13 @@ function partWorker(partObj) {
         if (validMachine!=undefined){
             queries.updateValidMachine(validMachine.machineId,partObj.partId)
             .then(result2=>{
-                r(result2)
+              machineQueries.getPostWithId(validMachine.post)
+                .then(postResult=>{
+                  console.log("here postresult")
+                  console.log(postResult)
+                  writeNc.writeNcFile(validMachine,postResult[0],partObj)
+                  r(result2)
+                })
             })
         }else{
             r("no valid machines")

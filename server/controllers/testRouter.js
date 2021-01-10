@@ -1,3 +1,4 @@
+const fs = require('fs')
 const testRouter = require('express').Router()
 const {insertGet} = require('../database/dbConnetion')
 const isAuth = require('../controllers/isAuth')
@@ -53,6 +54,30 @@ testRouter.post("/resettestdatabase",function(req,res){
             res.send("something went wrong")
         })
                     
+})
+
+testRouter.post("/showncfiles", function(req,res){
+    const dataPath = "../server/data/"
+    let ncFileObj = {}
+    fs.readdir(dataPath,function(err,folders){
+        if (err){
+            console.log("error",err)
+            res.send("error")
+        }
+        console.log(folders)
+        for (let i = 0; i<folders.length; i++){
+            fs.readdir(dataPath+folders[i],function(err,files){
+                for (let i2 = 0; i2<files.length;i2++){
+                    const filestring = fs.readFileSync(dataPath+folders[i]+"/"+files[i2],{encoding:"utf-8"})
+                    ncFileObj[files[i2].split(' ').join('_').split('.').join('_')] = filestring
+                    if (i===folders.length-1&&i2===files.length-1){
+                        console.log(ncFileObj)
+                        res.send(ncFileObj)
+                    }
+                }
+            })
+        }
+    })
 })
 
 module.exports = testRouter;

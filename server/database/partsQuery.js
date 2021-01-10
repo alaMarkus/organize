@@ -92,6 +92,13 @@ exports.getPart = (partId, user) => {
     const args = [partId, user]
     return insertGet(sql,args)  
 }
+
+exports.getLastPart = () =>{
+    const sql = 
+    `SELECT * FROM bushing WHERE partId = LAST_INSERT_ID()`
+    return insertGet(sql)
+}
+
 exports.insertPart = (user,partobj) => {
     const sql = 
         `INSERT INTO bushing 
@@ -116,7 +123,7 @@ exports.insertPart = (user,partobj) => {
         partobj.partName, 
         partobj.outsideDiameter, 
         partobj.insideDiameter,
-        partobj.partLength,
+        partobj.bushingLength,
         partobj.outsideChamfer,
         partobj.insideChamfer,
         partobj.outsideChamferType,
