@@ -81,7 +81,7 @@ const OrderBatchMenu = (props)=> {
                         <BatchContent selectedBatch = {selectedBatch}/>
                         <div className="order-button-container">
                             <button className="order-button plain-button"  onClick={submitOrder}>Create Order</button>
-                            <button className="order-button plain-button"  onClick={chooseMachine}>Choose machine</button>
+                            {/*<button className="order-button plain-button"  onClick={chooseMachine}>Choose machine</button>*/}
                         </div>
                     </div>
                 </div>        
